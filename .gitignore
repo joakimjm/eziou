@@ -235,4 +235,4 @@ $RECYCLE.BIN/
 # =========================
 # Custom special cases
 # =========================
-js/libs.js
+generated-*.js
