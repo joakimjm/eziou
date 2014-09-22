@@ -1,0 +1,21 @@
+{
+  "name": "eziou",
+  "version": "0.0.1",
+  "description": "Easily split your bills.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joakimjm/eziou"
+  },
+  "author": "Joakim Jensen Møller <joakim@solitune.dk>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joakimjm/eziou/issues"
+  },
+  "homepage": "https://github.com/joakimjm/eziou",
+  "devDependencies": {
+    "bower": "^1.3.11"
+  }
+}

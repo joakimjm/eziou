@@ -1,0 +1,308 @@
+/// <reference path="../white-label-base.less" />
+/// <reference path="../mixins.less" />
+
+/*******************************************************************************
+BUTTON TOOLKIT
+
+DEV NOTES: *
+Influenced by Bootstrap 3 (Apache Licence)
+https://github.com/twbs/bootstrap/blob/3.0.0-wip/less/forms.less
+
+CONTENTS:
+Block variables
+Buttons
+*******************************************************************************/
+
+/*: Block variables
+-------------------------------------------------------------------------------*/
+@button-spacing: @spacing-medium;
+
+/*: Buttons
+-------------------------------------------------------------------------------*/
+
+//
+//    1:    Add some horisontal spacing between run-in button elements
+//    2:    Remove the horisontal spacing if there is only one button or after
+//          the last button in a series
+//
+
+.btn {
+    //border-bottom: 1px solid;
+    border: 1px solid;
+    padding: .3em .5em;
+    margin: (@button-spacing); //1
+    display: inline-block;
+    .btn-pseudo-states(@btn-default-bg, @btn-default-color, @btn-default-border);
+    .t-small;
+    //text-decoration: none !important;
+    line-height: normal;
+    vertical-align: middle;
+    //box-shadow: 0 0 1px 0 white, 0 1px 1px rgba(0, 0, 0, 0.5);
+    .t-center;
+    cursor: pointer;
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //: For anchors <a> used as buttons
+    ////////////////////////////////////////////////////////////////////////////////
+    a& {
+        text-decoration: none;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //: Elements
+    ////////////////////////////////////////////////////////////////////////////////
+    &-label {
+        margin: 0 .45rem;
+        float: left;
+        font-weight: normal;
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+        &:only-child {
+            width: 100%;
+            margin: 0;
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    > [class^="icon-"],
+    > [class*=" icon-"] {
+        width: 1em;
+        height: 1em;
+        float: left;
+        position: relative;
+        top: @btn-icon-top-padding; //Align the icon with the text
+        font-size: inherit;
+
+        &:before {
+            width: 1em;
+            height: 1em;
+            display: inline-block;
+            font-size: inherit;
+        }
+    }
+
+    &:first-child {
+        margin-left: 0; //2
+    }
+
+    //&:only-child,
+    &:last-child {
+        margin-right: 0;  //2
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //: Button Types
+    ////////////////////////////////////////////////////////////////////////////////
+
+    //
+    //    1:    Make sure that icon and text have the same color
+    //
+    &--primary {
+    .btn-pseudo-states(@btn-primary-bg, @btn-primary-color);
+    }
+
+    &--cancel {
+        .btn-pseudo-states(@btn-cancel-bg, @btn-cancel-color);
+    }
+
+    &--caution {
+        .btn-pseudo-states(@btn-caution-bg, @btn-caution-color);
+    }
+
+    &--primary,
+    &--cancel,
+    &--caution {
+        > [class^="icon-"],
+        > [class*=" icon-"] {
+            color: inherit ;  //1
+        }
+    }
+
+    &--link,
+    &--icon {
+        border: none;
+        //border-bottom: 1px solid transparent;
+        padding: 0;
+        margin-right: (@button-spacing * 2);
+        margin-left: 0;
+        background-color: transparent;
+        color: @brand-text-color;
+        box-shadow: none;
+
+        /*[class^="icon-"],
+        [class*=" icon-"] {
+            color: @brand-primary;
+        }*/
+
+        &:hover,
+        &[data-state="hover"],
+        &:focus,
+        &[data-state="focus"],
+        &:active,
+        &[data-state="active"],
+        [disabled] &,
+        &:disabled,
+        &[disabled] {
+            //border: none;
+            background-color: transparent;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+
+            &:hover {
+                background-color: transparent;
+            }
+        }
+
+        &:hover,
+        &[data-state="hover"],
+        &:focus,
+        &[data-state="focus"] {
+            color: @brand-primary;
+        }
+
+        &:focus,
+        &[data-state="focus"] {
+            //border-bottom: 1px solid @brand-focus-color;
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //: Modifiers
+    ////////////////////////////////////////////////////////////////////////////////
+
+    &--icon {
+        > [class^="icon-"],
+        > [class*=" icon-"] {
+            top: 0;
+        }
+    }
+
+    &--lean {
+        margin: 0;
+
+        > [class^="icon-"],
+        > [class*=" icon-"] {
+            &:only-child {
+                top: 0; // If the '.icon-' is the only-child of its '.btn--lean' parent, remove the top adjustment
+            }
+        }
+    }
+
+    &--short {
+        margin-top: 0;
+        margin-bottom: 0;
+
+        > [class^="icon-"],
+        > [class*=" icon-"] {
+            &:only-child {
+                top: 0; // If the '.icon-' is the only-child of its '.btn--short' parent, remove the top adjustment
+            }
+        }
+    }
+
+    //
+    //    4:    Add spacing between vertically stacked buttons.
+    //    5:    Remove spacing before first vertically stacked button.
+    //
+
+    &--block {
+        width: 100%;
+        margin-top: @button-spacing; //4
+        margin-right: 0;
+        margin-left: 0;
+        display: block;
+
+        &:first-child,
+        &:only-child {
+            margin-top: 0; //5
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //: Button Sizes
+    ////////////////////////////////////////////////////////////////////////////////
+
+    &--large {
+        .t-xlarge;
+
+        > [class^="icon-"],
+        > [class*=" icon-"] {
+            top: .1rem;
+        }
+    }
+
+    &--small {
+        .t-xsmall;
+    }
+
+    &--mini {
+        .t-xxsmall;
+
+        > [class^="icon-"],
+        > [class*=" icon-"] {
+            top: .1rem;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //: Grid Cell Buttons
+    ////////////////////////////////////////////////////////////////////////////////
+
+    //
+    //    1:    Add additional spacing on each side of the btn to mimic the
+    //          spacing between inline-block elements which flexbox-items
+    //          don't have by default.
+    //
+
+    &.grid,
+    &.grid-cell {
+        margin: 0;
+    }
+
+/*
+    :not(.grid--y) > &.grid-cell {
+        //margin: 2px ((@button-spacing/2) + 2); // 1
+        margin: 0;
+
+        &:first-child {
+            //margin-left: 2px;
+            margin-left: 0;
+        }
+
+        &:last-child {
+            //margin-right: 2px;
+            margin-right: 0;
+        }
+
+        &.btn--link {
+            margin-right: (@button-spacing * 2);
+
+            &:first-child {
+                margin-left: 0;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+
+    [class*="grid--y"] > &.grid-cell {
+        margin: 0;
+
+        &.btn--link {
+            margin-right: 0;
+            margin-left: 0;
+        }
+    }
+*/
+}

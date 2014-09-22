@@ -1,0 +1,50 @@
+﻿////////////////////////////////////////////////////////////////////////////////
+//  FLEXBOX GRID SYSTEM: SCROLL INDICATION
+////////////////////////////////////////////////////////////////////////////////
+
+.g-- {
+    &scroll {
+        .scrollbar-adjustments();
+        ////////////////////////////////////////////////////////////////////////////////
+        //  1:  Inspiration for overflow scrolling with Flexbox:
+        //      http://stackoverflow.com/questions/14962468/flexbox-and-vertical-scroll-in-a-full-height-app-using-newer-flexbox-api
+        //
+        //      Note that using "min-height: 0" only works in Firefox, i.e. Chrome and
+        //      Safari loses the ability to scroll, whereas "height: 0" works for all.
+        //
+        //      IE seems to need this property.
+        //      2014-08-17: IE doesn't need this property after all
+        //
+        //      2014-08-22: If proprty is not present, then the BU-browser displays
+        //      Incorrectly. Perhaps it's just a matter of adding an additional
+        //      wrapper element, i.e. <div>, and enclosing the content in that...
+        ////////////////////////////////////////////////////////////////////////////////
+        height: 0; //1
+        @trans-enter: box-shadow linear .7s;
+        @shadow-size: 10px;
+        box-shadow: none;
+
+        .shadow-transition() {
+            .transition(@trans-enter);
+            .transition-duration(300ms);
+        }
+
+        &.is-scrolled {
+            &-top {
+                .shadow-transition();
+                box-shadow: #000 0 @shadow-size @shadow-size -@shadow-size inset;
+            }
+
+            &-bottom {
+                .shadow-transition();
+                box-shadow: #000 0 -@shadow-size @shadow-size -@shadow-size inset;
+                //Both
+                &.is-scrolled-top {
+                    .transition-duration(0);
+                    box-shadow: #000 0 @shadow-size @shadow-size -@shadow-size inset, #000 0 -@shadow-size @shadow-size -@shadow-size inset;
+                    /*box-shadow: #000 0 @shadow-size @shadow-size -@shadow-size inset;*/
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,115 @@
+﻿/*******************************************************************************
+WHITE LABEL BASE
+
+This file contains all variables used for the theme of the
+application and thus also serves as the interpolation base
+for white label clients (WLCs).
+*******************************************************************************/
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700,200italic,300italic,400italic,700italic);
+
+@font-family-stack: "Source Sans Pro", sans-serif;
+@font-weight: 300;
+@font-size-base: 14;
+
+
+////////////////////////////////////////////////////////////////////////////////
+//: Gutters
+////////////////////////////////////////////////////////////////////////////////
+
+@gutter-size: 6px;
+@spacing-medium: @gutter-size*1.15;
+@spacing-large: @gutter-size*2.5;
+
+
+////////////////////////////////////////////////////////////////////////////////
+//: Colors
+////////////////////////////////////////////////////////////////////////////////
+
+@overlay-bg: rgba(0, 0, 0, .50);
+@brand-text-color: black;
+@brand-primary: #c7254e;
+@brand-secondary: white;
+@brand-caution: @brand-primary;
+@brand-focus-color: lighten(@brand-primary, 10%);
+@brand-field-bg: white;
+
+@border-radius: 3px;
+@border-thick: 3px;
+@border-color: #e0e0e0;
+
+@shortcuts-bg-color: #f0f0f0;
+
+@footer-bg-color: #1B252D;
+@footer-text-color: contrast(@footer-bg-color);
+
+@sidebar-bg-color: #26343f;
+@sidebar-text-color: contrast(@sidebar-bg-color);
+@sidebar-border-style: 1px solid darken(@sidebar-bg-color, 3%);
+
+@notifier-bg: #eee999;
+@notifier-border-color: mix(@notifier-bg, #a44, 70%);
+
+
+////////////////////////////////////////////////////////////////////////////////
+//: Buttons
+////////////////////////////////////////////////////////////////////////////////
+
+@btn-default-bg: @brand-secondary;
+@btn-default-color: black;
+@btn-default-border: @border-color;
+
+@btn-primary-bg: @brand-primary;
+@btn-primary-color: white;
+
+@btn-caution-bg: @brand-caution;
+@btn-caution-color: white;
+
+@btn-cancel-bg: @btn-default-bg;
+@btn-cancel-color: white;
+
+@btn-icon-top-padding: .1em;
+
+
+////////////////////////////////////////////////////////////////////////////////
+//: Form controls
+////////////////////////////////////////////////////////////////////////////////
+
+@input-border-width: 1px;
+@input-border-color: @border-color;
+@input-border-color-caution: @btn-caution-bg;
+
+@input-bg: white;
+@input-color: contrast(@input-bg);
+
+
+////////////////////////////////////////////////////////////////////////////////
+//: Table styles
+////////////////////////////////////////////////////////////////////////////////
+
+@table-bg: white;
+
+@table-head-bg: #1b252d;
+@table-head-color: contrast(@table-head-bg);
+
+@table-foot-bg: #c0c0c0;
+@table-foot-color: black;
+
+@table-body-data-odd-bg: #efefef;
+@table-body-data-odd-color: black;
+@table-body-data-even-bg: transparent;
+@table-body-data-even-color: black;
+@table-body-data-hover-bg: @notifier-bg;
+@table-body-data-hover-color: contrast(@notifier-bg);
+
+
+////////////////////////////////////////////////////////////////////////////////
+//: Thematic colors
+////////////////////////////////////////////////////////////////////////////////
+//Additional palette color #9DA85B
+
+/*@user-color: #6B9169;*/
+@user-color: #31514C;
+/*@node-color: #31514C;*/
+@node-color: #6B9169;
+@bunit-color: @sidebar-bg-color;
+@tsm-color: #C8AF53;

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask TaskName="CssCompressorTask" AssemblyFile="..\..\packages\YUICompressor.NET.MSBuild.2.5.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll" />
+  <UsingTask TaskName="JavaScriptCompressorTask" AssemblyFile="..\..\packages\YUICompressor.NET.MSBuild.2.5.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll" />
+
+  <Target Name="BundleAndMinify" AfterTargets="Build">
+
+    <ItemGroup>
+      <JavascriptFiles Include="bower_components\modernizr\modernizr.js"></JavascriptFiles>
+      <JavascriptFiles Include="bower_components\jquery\dist\jquery.js"></JavascriptFiles>
+      <JavascriptFiles Include="bower_components\lodash\dist\lodash.min.js"></JavascriptFiles>
+      <JavascriptFiles Include="bower_components\jquery\dist\jquery.js"></JavascriptFiles>
+      <JavascriptFiles Include="bower_components\angular\angular.js"></JavascriptFiles>
+      <JavascriptFiles Include="bower_components\angular-route\angular-route.js"></JavascriptFiles>
+      <JavascriptFiles Include="bower_components\angular-animate\angular-animate.js"></JavascriptFiles>
+      <!--<JavascriptFiles Include="bower_components\angular-ui-router\release\angular-ui-router.min.js"></JavascriptFiles>-->
+      <JavascriptFiles Include="bower_components\restangular\dist\restangular.js"></JavascriptFiles>
+      <JavascriptFiles Include="bower_components\angular-notify\dist\angular-notify.js"></JavascriptFiles>
+    </ItemGroup>
+
+    <!--<CssCompressorTask
+          SourceFiles="@(CssFiles)"
+          OutputFile="..\..\..\..\Content\Minified.css"
+       />-->
+
+    <JavaScriptCompressorTask CompressionType="None" SourceFiles="@(JavaScriptFiles)" OutputFile="js\generated-libs.js" />
+  </Target>
+</Project>

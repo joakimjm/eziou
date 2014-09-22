@@ -1,0 +1,22 @@
+{
+  "name": "eziou",
+  "version": "0.0.1",
+  "homepage": "https://github.com/joakimjm/eziou",
+  "authors": [
+    "Joakim Jensen Møller <joakim@solitune.dk>"
+  ],
+  "description": "Easily split your bills.",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "modernizr": "~2.8.3",
+    "angular": "~1.2.25",
+    "angular-animate": "~1.2.23",
+    "angular-notify": "~1.1.0",
+    "restangular": "~1.4.0"
+  }
+}

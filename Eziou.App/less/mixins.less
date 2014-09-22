@@ -1,0 +1,300 @@
+////////////////////////////////////////////////////////////////////////////////
+//  Mixins
+//
+//  LESS @arguments variable:
+//  Source: http://stackoverflow.com/questions/8503088/concatenating-arbitrary-number-of-values-in-lesscss-mixin/8515414#8515414
+//
+//  For passing multiple, comma separated arguments to LESS mixsins use
+//  intermediate variables, e.g.
+//
+//  @myIntermediateVariable: opacity, left .3s
+//  .myMixIn(@myIntermediateVariable);
+//
+//  If the string had been passed directly to the mixin i.e.
+//  ".myMixIn(opacity, left .3s)" the LESS compiler would have remove the comma
+//  with the result being "opacity left .3s" (notice the missing comma).
+//
+////////////////////////////////////////////////////////////////////////////////
+
+.spacing-small() {
+    margin: @gutter-size/2;
+}
+
+.spacing-medium() {
+    margin: @gutter-size;
+}
+
+.spacing-large() {
+    margin: @gutter-size * 2;
+}
+
+.user-select(@value) {
+    -webkit-user-select: @value; // Chrome/Safari
+    -moz-user-select: @value; // Firefox
+    -ms-user-select: @value; // IE10+
+    // Rules below not implemented in browsers yet
+    //-o-user-select: @value;
+    user-select: @value;
+}
+
+.hardwareAccelerate() {
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+.scrollbar-adjustments() {
+    &::-webkit-scrollbar {
+        width: 5px;
+        height: 4px;
+
+        &-thumb {
+            background-color: fade(@sidebar-text-color, 35%);
+        }
+
+        &-button {
+            width: 0;
+            height: 0;
+            display: none;
+        }
+
+        -corner {
+            background-color: transparent;
+        }
+    }
+}
+
+.gradient(@start, @stop) {
+    background: -webkit-linear-gradient(top, @start 0%,@stop 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, @start 0%,@stop 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, @start 0%,@stop 100%); /* IE10+ */
+    background: linear-gradient(to bottom, @start 0%,@stop 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{start}', endColorstr='@{stop}',GradientType=0 ); /* IE6-9 */
+}
+
+.gradient-horizontal(@start, @stop) {
+    background: -webkit-linear-gradient(left, @start 0%,@stop 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, @start 0%,@stop 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, @start 0%,@stop 100%); /* IE10+ */
+    background: linear-gradient(to right, @start 0%,@stop 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{start}', endColorstr='@{stop}',GradientType=0 ); /* IE6-9 */
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Transform mixins
+////////////////////////////////////////////////////////////////////////////////
+
+.transform(...) {
+    @props: @arguments;
+    -webkit-transform: @props;
+    transform: @props;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Transition mixins
+////////////////////////////////////////////////////////////////////////////////
+
+.transition(...) {
+    @props: @arguments;
+    -webkit-transition: @props;
+    //-moz-transition: @props;
+    //-o-transition: @props;
+    transition: @props;
+}
+
+.transition-duration(...) {
+    @props: @arguments;
+    /*@props: ~`"@{arguments}".replace(/[\[\]]/g, '')`;*/
+    -webkit-transition-duration: @props; // Safari
+    transition-duration: @props;
+}
+
+.transition-property(...) {
+    @props: @arguments;
+    /*@props: ~`"@{arguments}".replace(/[\[\]]/g, '')`;*/
+    -webkit-transition-property: @props; // Safari
+    //-moz-transition-property: @props; // Firefox 4
+    //-o-transition-property: @props; // Opera
+    transition-property: @props;
+}
+
+.transition-delay(...) {
+    @props: @arguments;
+    -webkit-transition-delay: @props;
+    //-moz-transition-delay: @props;
+    //-o-transition-delay: @props;
+    transition-delay: @props;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Animations
+////////////////////////////////////////////////////////////////////////////////
+
+@-webkit-keyframes list_item_enter {
+    0% {
+        opacity: .1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes list_item_enter {
+    0% {
+        opacity: .1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+//Leave
+@-webkit-keyframes list_item_leave {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes list_item_leave {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Animation mixins
+////////////////////////////////////////////////////////////////////////////////
+
+.animation(...) {
+    @props: @arguments;
+
+    -webkit-animation: @props;
+    animation: @props;
+}
+
+.animation-duration(@time) {
+    -webkit-animation-duration: @time;
+    animation-duration: @time;
+}
+
+.animate-list-item() {
+    &.ng-enter {
+        //.animation('list_item_enter');
+        -webkit-animation: list_item_enter;
+        animation: list_item_enter;
+        .animation-duration(150ms);
+        opacity: 0;
+
+        &-stagger {
+            /*-moz-animation-delay: 10ms;
+            -o-animation-delay: 10ms;
+            -webkit-animation-delay: 10ms;
+            animation-delay: 10ms;*/
+        }
+    }
+
+    &.ng-leave {
+        //.animation('list_item_leave');
+        -webkit-animation: list_item_leave;
+        animation: list-item-leave;
+        .animation-duration(0);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Button pseudo states
+// Easily pump out default styles, as well as :hover, :focus, :active, and disabled options for all buttons
+////////////////////////////////////////////////////////////////////////////////
+
+.form-control-focus-colors() {
+    border-color: @brand-focus-color;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px @brand-focus-color;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px @brand-focus-color;
+}
+
+.disabled-state() {
+    outline: none;
+    opacity: .6;
+    cursor: default;
+}
+
+.contrast-color(@background: rgb(255, 255, 255)) {
+    color: contrast(@background);
+}
+
+.btn-pseudo-states(@background: rgb(240, 240, 240), @color: inherit, @border-color: inherit) {
+    //If the @color parameter has been defined use the @color value
+    .return-color(@t-color) when (iscolor(@t-color)) {
+        color: @t-color;
+    }
+    //If the @color parameter is not a color (i.e. "inherit") calculate the contrast (white or black) based on the background color
+    .return-color(@t-color) when not (iscolor(@t-color)) {
+        .contrast-color(@background);
+    }
+
+    .border-color(@color) when (iscolor(@border-color)) {
+        border-color: @border-color;
+    }
+
+    .border-color(@color) when not (iscolor(@border-color)) {
+        border-color: darken(@background, 15%);
+    }
+
+    .border-color(@background);
+    background-color: @background;
+    .return-color(@color);
+
+    &:hover,
+    &[data-state="hover"] {
+        .border-color(@background);
+        background-color: mix(@background, @brand-focus-color, 90%);
+        outline: none;
+    }
+    /*
+&:hover,
+    &[data-state="hover"],
+    &:focus,
+    &[data-state="focus"],
+    &:active,
+    &[data-state="active"] {
+        .border-color(darken(@background, 10%));
+        background-color: darken(@background, 10%);
+        outline: none;
+	}
+*/
+    &:focus,
+    &[data-state="focus"] {
+        .form-control-focus-colors();
+    }
+
+    &.disabled,
+    &[disabled],
+    [disabled] & {
+        &,
+        &:hover,
+        &:focus,
+        &:active,
+        &[data-state="active"] {
+            //Make disabled buttons semi-transparent
+            .border-color(@background);
+            background-color: @background;
+            .return-color(@color);
+            .disabled-state()
+        }
+    }
+}

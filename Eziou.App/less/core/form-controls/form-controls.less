@@ -1,0 +1,433 @@
+/// <reference path="../../mixins.less" />
+/// <reference path="../../white-label-base.less" />
+
+/*******************************************************************************
+FORM CONTROLS
+*******************************************************************************/
+
+@flip-anim-duration: 300ms;
+@flip-separator-width: @gutter-size;
+@flip-separator-color: @brand-primary;
+
+.form-field-fade() {
+    @transition-property: border-color, box-shadow;
+    @transition-duration: 250ms, 250ms;
+
+    .transition-property(@transition-property);
+    .transition-duration(@transition-duration);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//: General form field resets
+////////////////////////////////////////////////////////////////////////////////
+
+input[type="search"] {
+    -webkit-appearance: none;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//: Labels
+////////////////////////////////////////////////////////////////////////////////
+
+//
+//  1:  Make sure that all "*-label" class elements, e.g. "formcontrol-label"
+//      and "flip-label" display the same
+//
+
+[class$="-label"],
+[class*="-label "] {
+    font-weight: normal; //1
+    cursor: pointer;
+    .user-select(none);
+
+    :disabled &,
+    [disabled] & {
+        cursor: default;
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//: Basic Form Setup
+////////////////////////////////////////////////////////////////////////////////
+
+.form {
+    /*&-group {
+        width: 100%;
+        margin: @spacing-medium 0;
+        display: inline-block;
+
+        [class*="-label"] {
+            margin-top: @spacing-medium;
+            .g--gutter-right();
+
+            &[class*="flip-"] {
+                margin-top: 0;
+            }
+        }
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }*/
+    &--constrain-width {
+        max-width: 500px !important;
+        /*[class*="-label"] {
+            width: 20%;
+            margin-right: (@spacing-medium * 2);
+        }*/
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//: Basic Form Controls
+////////////////////////////////////////////////////////////////////////////////
+
+//
+//  1:  For demo/test-case purposes.
+//
+//  2:  Inspiration: http://bavotasan.com/2011/style-select-box-using-only-css/
+//
+//  3:  Make inputs shrink on the cross-axis
+
+
+[class*="-label"] {
+    &[class*="-label--initial"] {
+        width: 30%;
+        margin-right: (@spacing-medium * 2);
+        /*.Modality-window[class*="--alert"] & {
+            width: 20%;
+        }*/
+    }
+}
+
+.formcontrol {
+
+    &-label:not(.grid-cell) {
+        margin-right: (@spacing-medium / 2);
+    }
+
+    &-label[class*="grid-cell"] {
+        //margin-top: (@spacing-medium);
+    }
+
+    > [class^="icon-"],
+    > [class*=" icon-"] {
+        cursor: pointer;
+
+        &:first-child,
+        &:last-child {
+            //border-top: @input-border-width solid @input-border-color;
+            //border-bottom: @input-border-width solid @input-border-color;
+            //padding: @spacing-medium (@spacing-medium * 2);
+            //background-color: @brand-field-bg;
+            //color: rgba(0,0,0,.6);
+            //line-height: none;
+            //background-color: red;
+        }
+
+
+        &:first-child {
+            //border-top-left-radius: @border-radius;
+            //border-bottom-left-radius: @border-radius;
+            //border-left: @input-border-width solid @input-border-color;
+            //color: red;
+        }
+
+        &:last-child {
+            //border-top-right-radius: @border-radius;
+            //border-bottom-right-radius: @border-radius;
+            //border-right: @input-border-width solid @input-border-color;
+            //color: green;
+        }
+    }
+
+
+    //Make sure that standard checkboxes are hidden
+    > [type="checkbox"] {
+        ////////////////////////////////////////////////////////////////////////////////
+        //: Checkbox
+        //
+        //  1:  Reference to blank placeholder icon, which is shown when the checkbox
+        //      is unchecked. CSS borders make up the checkbox-border - not the icon.
+        //      This makes the borders as well as the checkmark(s) individually
+        //      stylable.
+        ////////////////////////////////////////////////////////////////////////////////
+        position: absolute;
+        opacity: 0;
+
+        + .formcontrol-input {
+            border: 1px solid @border-color;
+            background-color: @input-bg;
+            margin-top: .1em;
+            padding: 0;
+            font-family: 'icon-font';
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+
+            &:before {
+                content: "\e617"; // 1
+                background-color: inherit;
+                color: @input-color;
+                cursor: pointer;
+            }
+        }
+        ////////////////////////////////////////////////////////////////////////////////
+        //: Checkbox states
+        ////////////////////////////////////////////////////////////////////////////////
+        &:checked + .formcontrol-input {
+            &:before {
+                content: "\e615";
+            }
+        }
+
+        &:indeterminate + .formcontrol-input,
+        &.is-indeterminate + .formcontrol-input {
+            &:before {
+                content: "\e616";
+            }
+        }
+
+        &:focus + .formcontrol-input,
+        &.has-focus + .formcontrol-input {
+            .form-control-focus-colors();
+        }
+
+        &:disabled + .formcontrol-input {
+            &:before {
+                background-color: #efefef;
+                cursor: default;
+            }
+        }
+
+        //&:not(:checked):required + .formcontrol-input,
+        &:not(:checked):required + .formcontrol-input {
+            border-color: @input-border-color-caution;
+        }
+    }
+
+    &-input {
+        padding: @spacing-medium/2;
+        .form-field-fade();
+        background-color: @input-bg;
+        color: @input-color;
+        
+        //Shrink inputs that aren't checkboxes
+        :not([type="checkbox"]) + & {
+            -webkit-align-self: flex-start;
+            -ms-flex-item-align: start;
+            align-self: flex-start;
+        }
+
+        input&,
+        textarea&,
+        select& {
+            border: 1px solid @input-border-color;
+
+            &[class*="grid"],
+            &[class*="grid-cell"] {
+                width: 100%;
+            }
+
+            //&:required,
+            &.ng-invalid-required {
+                border-color: @input-border-color-caution;
+            }
+        }
+
+        select& { // 2
+            border-radius: 0;
+            padding-right: 24px;
+            /*background-color: transparent;
+            background-image: url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHVja3kAAQAEAAAAPAAA/+4AJkFkb2JlAGTAAAAAAQMAFQQDBgoNAAABxwAAAesAAAJDAAACqP/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoKDBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8IAEQgAIQAhAwERAAIRAQMRAf/EAJIAAQEBAQEBAAAAAAAAAAAAAAABAwIEBgEBAAAAAAAAAAAAAAAAAAAAABAAAgEEAwAAAAAAAAAAAAAAAQIAECBAMTARIREAAQUAAAAAAAAAAAAAAAAAACBAASFREgEAAAAAAAAAAAAAAAAAAABAEwEAAQIFBAIDAAAAAAAAAAABEQAhEEAxQVEgMIGhYbFx0eH/2gAMAwEAAhEDEQAAAfvSghTk85TU0Bicm5QCFAAAP//aAAgBAQABBQK069ELMYmqMsA75f/aAAgBAgABBQLJ/9oACAEDAAEFAsn/2gAIAQICBj8CT//aAAgBAwIGPwJP/9oACAEBAQY/AkyUYy//2gAIAQEDAT8h0xkw9ah4PxtXwDg/dELOcYLmlIvtoAIOgA0t2P/aAAgBAgMBPyHM/wD/2gAIAQMDAT8hzP8A/9oADAMBAAIRAxEAABCAQS0AEgAQAAAf/9oACAEBAwE/EFAqwF1dIoRBGR0cBJhGGGNnD3n1TKqG7u/G3irCvKrL+bPVIQAbC2xggiJI2Rq5v7zj+VGiweCo8Qe3oAgA4Ox//9oACAECAwE/EMz/AP/aAAgBAwMBPxDM/wD/2Q==);
+            background-repeat: no-repeat;
+            background-position: right;
+            -webkit-appearance: none;*/
+            cursor: pointer;
+        }
+
+        &[data-state="focus"], //1
+        &:focus {
+            .form-control-focus-colors();
+        }
+
+        &--static {
+            padding: 0;
+            display: inline;
+            font-weight: normal;
+        }
+
+        &:disabled,
+        &[disabled],
+        [disabled] & {
+            .disabled-state();
+            .user-select(none);
+        }
+
+        :required,
+        &[required] {
+            /*background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAAAEZ0FNQQAAsY58+1GTAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAABBSURBVHjajNAxCgAwDELRr/eferxeJl1TCMFMIm+Q6NwqgjOgFJJgt6wUrthDpxSO2MsspfDDDl4ogAcAAP//AwCG7wOH8TS/AgAAAABJRU5ErkJggg==);
+            background-repeat: no-repeat;
+            background-position: right top;*/
+        }
+    }
+    /*
+    &-drop {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        fill: @brand-primary;
+        stroke-width: 1;
+        stroke: @input-border-color;
+    }
+*/
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//: On/Off Flip Switch
+////////////////////////////////////////////////////////////////////////////////
+
+.flip {
+    /*width: 100%;*/
+    padding-left: 0;
+    // Overall control container
+    label,
+    label& {
+        /*width: 100%;*/
+        cursor: pointer;
+        .user-select(none);
+    }
+    // Main Elements
+    &-label,
+    &-container,
+    &-switch,
+    &-state {
+        display: inline-block;
+    }
+    //
+    // 1. Vertically align label in center of grid.
+    //
+    &-label.grid-cell {
+        //.g--cross-center(); // 1
+        -webkit-align-self: center;
+        -ms-flex-item-align: center;
+        align-self: center;
+    }
+    // Switch container
+    &-container {
+        .hardwareAccelerate();
+    }
+    //
+    // 1. Vertically align the element with the label
+    //
+    &-switch {
+        display: inline-block;
+        overflow: hidden;
+        max-width: 100%;
+        padding: 1px;
+        margin: 0 @spacing-medium;
+        border: @input-border-width solid @input-border-color;
+        vertical-align: middle; // 1
+        background-color: @input-bg;
+        color: @input-color;
+        .form-field-fade();
+
+        .flip[class*="grid"] & {
+            margin: 0;
+        }
+    }
+
+    &-states {
+        position: relative;
+        float: left;
+        width: 200%;
+        left: -100%;
+        .t-small();
+        white-space: nowrap;
+        .transition-duration(@flip-anim-duration);
+        .transition-property(left);
+    }
+
+    &-state {
+        position: relative;
+        float: left;
+        width: 50%;
+        padding: 0 @spacing-medium;
+        font-weight: normal;
+        text-transform: uppercase;
+
+        &:first-child:after {
+            position: absolute;
+            right: (@flip-separator-width * -1);
+            content: "";
+            height: 100%;
+            border-left: @flip-separator-width solid @flip-separator-color;
+            .transition-duration(@flip-anim-duration);
+            .transition-property(right);
+        }
+
+        &:last-child {
+            padding-left: (@flip-separator-width + @spacing-medium);
+        }
+    }
+    // Proxy Checkbox + States
+    input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+
+        &:checked + .flip-container {
+            .flip-states {
+                left: 0;
+            }
+
+            .flip-state:first-child:after {
+                right: 0;
+            }
+        }
+
+        &:focus + .flip-container .flip-switch {
+            .form-control-focus-colors();
+        }
+
+        &[disabled] + .flip-container .flip-state {
+            .disabled-state();
+        }
+    }
+    ////////////////////////////////////////////////////////////////////////////////
+    //: Modifiers
+    ////////////////////////////////////////////////////////////////////////////////
+    &--reverse {
+        .flip {
+            &-label {
+                //.flex-order(1);
+                //.g--order(1);
+                -webkit-box-ordinal-group: 2;
+                -moz-box-ordinal-group: 2;
+                -webkit-order: 1;
+                -ms-flex-order: 1;
+                order: 1;
+            }
+
+            &-container {
+                &.grid-cell {
+                    padding-right: @spacing-medium;
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+}

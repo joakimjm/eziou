@@ -1,0 +1,18 @@
+﻿/// <reference path="../white-label-base.less" />
+.notifier {
+    border: 1px solid @notifier-border-color;
+    padding: @gutter-size;
+    position: fixed;
+    right: @spacing-large;
+    top: -50px;
+    z-index: 9999;
+    background-color: @notifier-bg;
+
+    @notifyTransition: top 0.5s ease-out,opacity 0.5s ease-out;
+    .transition(@notifyTransition);
+
+    &--center {
+        left: 50%;
+        right: auto;
+    }
+}

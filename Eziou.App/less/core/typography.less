@@ -1,0 +1,147 @@
+/*******************************************************************************
+TYPOGRAPHY
+*******************************************************************************/
+
+
+////////////////////////////////////////////////////////////////////////////////
+// "Root EM" (REM) Sizing
+// http://snook.ca/archives/html_and_css/font-size-with-rem
+//
+// html { font-size: 62.5%; }
+// body { font-size: 14px; font-size: 1.4rem; } // =14px
+// h1   { font-size: 24px; font-size: 2.4rem; } // =24px
+////////////////////////////////////////////////////////////////////////////////
+
+html {
+    font-family: @font-family-stack;
+    font-weight: @font-weight;
+    font-size: 62.5%;
+}
+
+body {
+    font-size: @font-size-base * 1px; // =14px
+    font-size: (@font-size-base/10) * 1rem; // =1.4rem
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//  Headings
+////////////////////////////////////////////////////////////////////////////////
+
+h1,
+h2,
+h3,
+h4 {
+    margin-right: 0;
+    margin-left: 0;
+    font-weight: normal;
+
+    &:first-child {
+        margin-top: 0;
+    }
+}
+
+h1,
+.h1 {
+    font-size: 20px;
+    font-size: 2rem; // = 20px
+}
+
+h2,
+.h2 {
+    font-size: 16px;
+    font-size: 1.6rem; // = 16px
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//  Sizes
+////////////////////////////////////////////////////////////////////////////////
+
+.t-xlarge {
+    font-size: 24px;
+    font-size: 2.4rem; //= 24px
+}
+
+.t-large {
+    font-size: 20px;
+    font-size: 2rem; //= 24px
+}
+
+.t-small {
+    font-size: 14px;
+    font-size: 1.4rem; // = 14px
+}
+
+.t-xsmall {
+    font-size: 10px;
+    font-size: 1rem; // = 10px;
+}
+
+.t-xxsmall {
+    font-size: 8px;
+    font-size: .8rem; // = 8px;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//  Formatting
+////////////////////////////////////////////////////////////////////////////////
+.t-strong {
+    font-weight: bold;
+}
+
+.t-underline {
+    text-decoration: underline;
+
+    /*&--firstLetter {
+        display: block;
+
+        &::first-letter {
+            //border-bottom: 1px solid @brand-secondary; // Works
+            //color: red; // Works
+            text-decoration: underline; // doesn't work
+        }
+    }*/
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//  Alignment
+////////////////////////////////////////////////////////////////////////////////
+
+.t-center {
+    text-align: center;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//  Casing
+////////////////////////////////////////////////////////////////////////////////
+
+.t-upper {
+    text-transform: uppercase;
+}
+
+.t-lower {
+    text-transform: lowercase;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//  Overflow
+////////////////////////////////////////////////////////////////////////////////
+
+.t-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//  Colors
+////////////////////////////////////////////////////////////////////////////////
+
+.t-caution {
+    color: @brand-caution;
+}
