@@ -4,10 +4,10 @@
     var id = 'App';
 
     angular.module(id)
-        .config(["$routeProvider", function ($routeProvider) {
+        .config(["$stateProvider", function ($stateProvider) {
             /*
              * Redirect: Set the default app url
              */
-            $routeProvider.otherwise('/');
+            //$routeProvider.otherwise('/');
         }]);
 })();

@@ -8,23 +8,24 @@
             /*
              * Configure Restangular.
              */
-            RestangularProvider.setBaseUrl(globalConfig.apiRoot);
+            RestangularProvider.setBaseUrl(globalConfig.apiUrl);
 
             /*
              * Lists are hyper collections and we need to tell Restangular where
              * the items actually are, so add a response intereceptor
              */
-            RestangularProvider
-                .addResponseInterceptor(function (data, operation, what, url, response, deferred) {
-                    var extractedData;
-                    // .. to look for getList operations
-                    if (operation === "getList") {
-                        // .. and extract the list data
-                        extractedData = data.items || [];
-                    }
+            //RestangularProvider
+            //    .addResponseInterceptor(function (data, operation, what, url, response, deferred) {
+            //        var extractedData;
+            //        // .. to look for getList operations
+            //        if (operation === "getList") {
+            //            // .. and extract the list data
+            //            extractedData = data.items || [];
+            //        }
 
-                    return extractedData || data;
-                });
+            //        return extractedData || data;
+            //    });
+            
 
             /*
              * Add a interceptor that intercepts errors globally and alerts the user.

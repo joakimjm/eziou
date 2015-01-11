@@ -1,74 +1,112 @@
-﻿<h1>
-    <input ng-model="event.Name" type="text">New event</input>
-</h1>
-<form id="initial-participant" focus ng-hide="event.Participants.length > 0">
-    <legend>Who's making the event?</legend>
-    <ul class="input">
-        <li>
-            <label>Name</label>
-            <input type="text" id="txtInitialParticipantName" class="text required" ng-model="newParticipant.Name" />
-        </li>
-    </ul>
-    <nav>
-        <button type="button" class="submit" ng-click="createParticipant()">Start splitting</button>
-    </nav>
-</form>
-<div ng-show="event.Participants.length > 0">
-    <table class="table-view">
-        <thead>
-            <tr>
-                <th></th>
-                <th ng-repeat="i in event.Items">
-                    <input type="text" ng-model="i.Name" placeholder="Item" />
-                    <input type="text" ng-model="i.Price" placeholder="Price" />
-                    <select ng-model="i.Participant" ng-options="i.Name for i in event.Participants" />
-                    <!--<span class="name">{{i.Name}}</span>
-                    <span class="price">{{i.Price}}</span>-->
-                    <div>Usage: {{calcUsage(i)}}</div>
-                </th>
-                <th class="add-item">
-                    <input type="text" ng-model="newItem.Name" placeholder="Item" />
-                    <input type="text" ng-model="newItem.Price" placeholder="Price" />
-                    <select ng-model="newItem.Participant" ng-options="i.Name for i in event.Participants" />
-                    <button type="button" ng-click="createItem()"><i class="icon-add"></i></button>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="p in event.Participants">
-                <th>
+﻿<style>
+    body {
+        font-size: x-large;
+    }
+
+    .purchasedBy {
+        background-color: rgba(0, 255, 33, .1);
+    }
+
+    input {
+        font-size: 1em;
+    }
+</style>
+
+<div class="grid grid--y">
+    <h1 class="grid-cell g--fit">
+        <input class="grid-cell" ng-model="event.name" type="text" />
+    </h1>
+    <form class="grid grid--y" id="initial-participant" ng-hide="event.participants.length > 0">
+        <legend class="grid-cell g--fit">Who's making the event?</legend>
+
+        <label class="formcontrol">
+            <b class="formcontrol-label">Name</b>
+            <input class="formcontrol-input" type="text" id="txtInitialParticipantName" required ng-model="newParticipant.Name" />
+        </label>
+
+        <nav>
+            <button type="button" class="submit" ng-click="createParticipant()">Start splitting</button>
+        </nav>
+    </form>
+
+    <div class="grid grid--y" ng-show="event.participants.length > 0">
+        <div class="grid g--fit">
+            <div class="grid grid--y" ng-repeat="item in items">
+                <input class="grid-cell" type="text" ng-model="item.name" placeholder="Item" />
+            </div>
+            <div class="grid grid--y">
+                <input class="grid-cell" type="text" ng-model="newItem.name" placeholder="Add item" />
+            </div>
+        </div>
+
+        <div class="grid g--fit" ng-repeat="participant in event.participants">
+            <div class="grid grid--y">
+                <input class=" grid-cell" type="text" ng-model="participant.name" placeholder="Participant name" />
+                <span class="grid-cell balance">{{calcBalance(participant) | currency:currencySymbol}}</span>
+            </div>
+
+            <label class="grid-cell" ng-repeat="item in items" ng-class="{'purchasedBy': participant.hasPurchased(item)}">
+                <input type="checkbox" ng-click="participant.toggleUse(item)" ng-checked="participant.usesItem(item)" />
+                {{calcUsage(item)}}
+            </label>
+        </div>
+        <div class="grid g--fit">
+            <div class="grid grid--y">
+                <input class=" grid-cell" type="text" ng-model="newParticipant.name" placeholder="Add participant name" />
+            </div>
+        </div>
+        <!--<table class="table-view">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th ng-repeat="i in items">
+                        <input type="text" ng-model="i.name" placeholder="Item" />
+                        <input type="text" ng-model="i.Price" placeholder="Price" />
+                        <select ng-model="i.Participant" ng-options="i.name for i in event.participants" />
+                        <div>Usage: {{calcUsage(i)}}</div>
+                    </th>
+                    <th class="add-item">
+                        <input type="text" ng-model="newItem.name" placeholder="Item" />
+                        <input type="text" ng-model="newItem.Price" placeholder="Price" />
+                        <select ng-model="newItem.Participant" ng-options="i.Name for i in event.participants" />
+                        <button type="button" ng-click="createItem()"><i class="icon-add"></i></button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="p in event.participants">
+                    <th>
+                        <ul class="input placeholder">
+                            <li>
+                                <input type="text" class="text required" placeholder="Name" ng-model="p.Name" />
+                            </li>
+                            <li>
+                                <span class="balance">{{calcBalance(p) | currency:currencySymbol}}</span>
+                            </li>
+                        </ul>
+                    </th>
+                    <td ng-repeat="i in event.Items">
+                        <input type="checkbox" ng-model="p.Participant_Item[$index].enabled" />
+                        <label>{{calcShare(i, p.Participant_Item[$index].enabled) | currency:currencySymbol}}</label>
+                    </td>
+                </tr>
+            <th class="add-participant">
+                <div ng-bedrockform id="Div1" focus>
                     <ul class="input placeholder">
                         <li>
-                            <input type="text" class="text required" placeholder="Name" ng-model="p.Name" />
-                            <!--<span contenteditable="true" ng-model="p.Name" class="name"></span>-->
-                        </li>
-                        <li>
-                            <span class="balance">{{calcBalance(p) | currency:currencySymbol}}</span>
+                            <input type="text" id="txtParticipantName" class="text required" placeholder="Name" ng-model="newParticipant.Name" />
                         </li>
                     </ul>
-                </th>
-                <td ng-repeat="i in event.Items">
-                    <input type="checkbox" ng-model="p.Participant_Item[$index].enabled" />
-                    <label>{{calcShare(i, p.Participant_Item[$index].enabled) | currency:currencySymbol}}</label>
-                </td>
-            </tr>
-        <th class="add-participant">
-            <!--<input type="text" ng-model="newParticipant.Name" placeholder="Name" />-->
-            <!--<button type="button" ng-click="createParticipant()"><i class="icon-add"></i></button>-->
-            <div ng-bedrockform id="Div1" focus>
-                <ul class="input placeholder">
-                    <li>
-                        <input type="text" id="txtParticipantName" class="text required" placeholder="Name" ng-model="newParticipant.Name" />
-                    </li>
-                </ul>
-                <nav>
-                    <button type="button" class="submit" ng-click="createParticipant()" class="hidden">Add</button>
-                </nav>
-            </div>
-        </th>
-        </tbody>
-    </table>
+                    <nav>
+                        <button type="button" class="submit" ng-click="createParticipant()" class="hidden">Add</button>
+                    </nav>
+                </div>
+            </th>
+            </tbody>
+        </table>
 
-    <button type="button" ng-click="saveEvent()">Save stuff</button>
-
+        <div class="grid-cell">
+            <button type="button" ng-click="saveEvent()">Save stuff</button>
+        </div>-->
+    </div>
 </div>

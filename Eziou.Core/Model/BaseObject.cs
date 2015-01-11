@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Eziou.Core.Model
 {
-    internal abstract class BaseObject
+    public abstract class BaseObject
     {
         public long Id { get; set; }
         public DateTime CreatedDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
     }
 }

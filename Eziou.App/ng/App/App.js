@@ -6,8 +6,7 @@
     var App = angular.module('App', [
         "restangular",
         "ngAnimate",
-        "ngRoute",
-        //"ui.router",
+        "ui.router",
         "Config",
         "Notifier",
         "Events"

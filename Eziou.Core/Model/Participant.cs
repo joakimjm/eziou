@@ -10,6 +10,7 @@ namespace Eziou.Core.Model
     {
         public string Name { get; set; }
 
-        public ICollection<Item> Items { get; set; }
+        public IEnumerable<Item> PurchasedItems { get; set; }
+        public IEnumerable<Item> Items { get; set; }
     }
 }
