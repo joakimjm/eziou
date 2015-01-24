@@ -1,35 +1,18 @@
 ﻿<style>
-    body {
-        font-size: x-large;
-    }
-
     .provider {
         background-color: rgba(0, 255, 33, .1);
-    }
-
-    input {
-        font-size: 1em;
     }
 
     .participant {
         border-bottom: 1px solid #ccc;
     }
-
-    .participant input {
-        border: none;
-    }
-
-    .items-item {
-        border: 1px solid cyan;
-    }
 </style>
 
-<div class="grid grid--y">
-    <h1 class="grid-cell g--fit">
-        <input class="grid-cell" ng-model="event.name" type="text" />
-    </h1>
+<div class="grid grid--y grid--gutters-between">
+    <input class="formcontrol-input t-center t-xlarge" ng-model="event.name" type="text" />
+
     <form class="grid grid--y" id="initial-participant" ng-hide="event.participants.length > 0">
-        <legend class="grid-cell g--fit">Who's making the event?</legend>
+        <h2 class="grid-cell g--fit">Who's making the event?</h2>
 
         <label class="formcontrol">
             <b class="formcontrol-label">Name</b>
@@ -42,93 +25,57 @@
     </form>
 
     <div class="grid grid--y" ng-show="event.participants.length > 0">
+
+        <!-- BEGIN: Header; list of items -->
         <div class="items grid g--fit">
             <div class="grid-cell g--1of5">
-                Participants
+                <!--<span class="grid-cell">Participants</span>-->
             </div>
-            <div class="grid grid--main-end">
-                <div class="items-item grid-cell" ng-repeat="item in items">
-                    {{item.name}}
-                    <!--<input class="grid-cell" type="text" ng-model="item.name" placeholder="Item" />-->
+            <div class="grid grid--main-end grid--divide">
+                <div class="item grid" ng-repeat="item in items">
+                    <button type="button" class="btn btn--icon grid-cell g--fit item-remove" ng-click="removeItem(item)"><i class="icon-trash"></i></button>
+                    <span class="grid-cell item-name">
+                        <input class="formcontrol-input grid-cell" type="text" ng-model="item.name" placeholder="Item name" ng-if="item.isNew" autofocus ng-blur="removeNewState(item)" />
+                        <input class="formcontrol-input grid-cell" type="text" ng-model="item.name" placeholder="Item name" ng-if="!item.isNew" />
+                    </span>
+                    <label class="formcontrol grid grid--main-end item-price">
+                        <b class="formcontrol-label">{{currencySymbol}}</b>
+                        <input class="formcontrol-input" type="number" ng-model="item.price" ez-autosize />
+                    </label>
                 </div>
-                <!--<div class="grid-cell">
-                    <button type="button" class="btn">Add item</button>
-                </div>-->
             </div>
-
         </div>
-
+        <!-- END: Header -->
+        <!-- BEGIN: Participants -->
         <div class="participant grid g--fit" ng-repeat="participant in event.participants">
-            <div class="grid grid--y g--1of5">
-                <input class="grid-cell" type="text" ng-model="participant.name" placeholder="Participant name" />
-                <span class="grid-cell balance">{{calcBalance(participant) | currency:currencySymbol}}</span>
-            </div>
 
-            <label class="grid grid--main-center grid--cross-center" ng-repeat="item in items" ng-class="{'provider': participant.hasPurchased(item)}">
-                <input class="grid-cell g--fit" type="checkbox" ng-click="participant.toggleUse(item)" ng-checked="participant.usesItem(item)" />
-                <!--<span class="grid-cell g--fit">{{calcUsage(item)}}</span>-->
+            <!-- BEGIN: Participant -->
+            <div class="grid g--1of5">
+                <div class="grid grid--y">
+                    <div class="grid">
+                        <input class="formcontrol-input grid-cell g--fit" type="text" ng-model="participant.name" placeholder="Participant name" ez-autosize />
+                    </div>
+
+                    <span class="grid-cell balance">{{calcBalance(participant) | currency:currencySymbol}}</span>
+                </div>
+
+                <div class="grid grid--main-end grid--cross-center u-margin-l--right">
+                    <button type="button" class="btn btn--icon grid-cell g--fit participant-remove" ng-click="removeParticipant(participant)"><i class="icon-trash"></i></button>
+                    <button type="button" class="btn btn--icon" ng-click="addItem(participant)"><i class="icon-add"></i></button>
+                </div>
+            </div>
+            <!-- END: Participant -->
+            <!-- BEGIN: Participant items -->
+            <label class="grid grid--main-center grid--cross-center grid--divide" ng-repeat="item in items" ng-class="{'provider': participant.hasPurchased(item)}">
+                <input class="formcontrol-input grid-cell g--fit" type="checkbox" ng-click="participant.toggleUse(item)" ng-checked="participant.usesItem(item)" />
             </label>
+            <!-- END: Participant items -->
         </div>
-        <div class="participant grid g--fit">
+        <div class="grid g--fit">
             <div class="grid g--1of5 grid--y">
-                <input class=" grid-cell" type="text" ng-model="newParticipant.name" placeholder="Add participant" ng-model-options="{updateOn: 'blur'}" />
+                <input class="formcontrol-input  grid-cell" type="text" ng-model="newParticipant.name" placeholder="Add participant" ng-model-options="{updateOn: 'blur'}" />
             </div>
         </div>
-
-
+        <!-- END: Participants -->
     </div>
-    <!--<table class="table-view">
-        <thead>
-            <tr>
-                <th></th>
-                <th ng-repeat="i in items">
-                    <input type="text" ng-model="i.name" placeholder="Item" />
-                    <input type="text" ng-model="i.Price" placeholder="Price" />
-                    <select ng-model="i.Participant" ng-options="i.name for i in event.participants" />
-                    <div>Usage: {{calcUsage(i)}}</div>
-                </th>
-                <th class="add-item">
-                    <input type="text" ng-model="newItem.name" placeholder="Item" />
-                    <input type="text" ng-model="newItem.Price" placeholder="Price" />
-                    <select ng-model="newItem.Participant" ng-options="i.Name for i in event.participants" />
-                    <button type="button" ng-click="createItem()"><i class="icon-add"></i></button>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="p in event.participants">
-                <th>
-                    <ul class="input placeholder">
-                        <li>
-                            <input type="text" class="text required" placeholder="Name" ng-model="p.Name" />
-                        </li>
-                        <li>
-                            <span class="balance">{{calcBalance(p) | currency:currencySymbol}}</span>
-                        </li>
-                    </ul>
-                </th>
-                <td ng-repeat="i in event.Items">
-                    <input type="checkbox" ng-model="p.Participant_Item[$index].enabled" />
-                    <label>{{calcShare(i, p.Participant_Item[$index].enabled) | currency:currencySymbol}}</label>
-                </td>
-            </tr>
-        <th class="add-participant">
-            <div ng-bedrockform id="Div1" focus>
-                <ul class="input placeholder">
-                    <li>
-                        <input type="text" id="txtParticipantName" class="text required" placeholder="Name" ng-model="newParticipant.Name" />
-                    </li>
-                </ul>
-                <nav>
-                    <button type="button" class="submit" ng-click="createParticipant()" class="hidden">Add</button>
-                </nav>
-            </div>
-        </th>
-        </tbody>
-    </table>
-
-    <div class="grid-cell">
-        <button type="button" ng-click="saveEvent()">Save stuff</button>
-    </div>-->
-</div>
 </div>

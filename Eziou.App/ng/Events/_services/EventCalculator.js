@@ -17,13 +17,11 @@
         }
 
         service.usage = calcUsage;
-
         service.share = calcShare;
-
         service.balance = calcBalance;
-
         return service;
 
+        //#region private methods
         /**
          * Sum usage of an item by participants.
          *
@@ -46,6 +44,7 @@
 
             return usage;
         }
+
         function calcShare(item) {
             var usage = calcUsage(item, event.participants);
 
@@ -57,6 +56,7 @@
 
             return (price / usage);
         }
+
         function calcBalance(participant) {
             var sum = 0.0,
                 price = 0,
@@ -66,7 +66,7 @@
                 sum += calcShare(participant.items[i], event.participants);
             }
 
-            console.log(participant.name + " with Id: " + participant.id, sum);
+            //console.log(participant.name + " with Id: " + participant.id, sum);
             /*
              * 1. Look through the items purchased by the participant.
              * 2. Check if anyone uses it.
@@ -77,14 +77,15 @@
                     /*
                      * Someone uses it, and it should be subtracted from his share sum.
                      */
-                    console.log(participant.name + " bought item: ", item.name);
+                    //console.log(participant.name + " bought item: ", item.name);
                     price = parseFloat(item.price) || 0;
                     sum -= price;
                 }
             }
 
-            console.log(participant.name, sum);
+            //console.log(participant.name, sum);
             return sum;
         }
+        //#endregion
     }
 })();

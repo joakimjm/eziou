@@ -148,8 +148,6 @@ input[type="search"] {
             //color: green;
         }
     }
-
-
     //Make sure that standard checkboxes are hidden
     > [type="checkbox"] {
         ////////////////////////////////////////////////////////////////////////////////
@@ -210,7 +208,6 @@ input[type="search"] {
                 cursor: default;
             }
         }
-
         //&:not(:checked):required + .formcontrol-input,
         &:not(:checked):required + .formcontrol-input {
             border-color: @input-border-color-caution;
@@ -218,11 +215,12 @@ input[type="search"] {
     }
 
     &-input {
-        padding: @spacing-medium/2;
+        /*padding: @spacing-medium/2;*/
+        padding: 0;
         .form-field-fade();
         background-color: @input-bg;
         color: @input-color;
-        
+        font-size: 1em;
         //Shrink inputs that aren't checkboxes
         :not([type="checkbox"]) + & {
             -webkit-align-self: flex-start;
@@ -230,16 +228,25 @@ input[type="search"] {
             align-self: flex-start;
         }
 
+        &[type="number"] {
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                /* display: none; <- Crashes Chrome on hover */
+                -webkit-appearance: none;
+                margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+            }
+        }
+
         input&,
         textarea&,
         select& {
-            border: 1px solid @input-border-color;
+            /*border: 1px solid @input-border-color;*/
+            border: none;
 
             &[class*="grid"],
             &[class*="grid-cell"] {
                 width: 100%;
             }
-
             //&:required,
             &.ng-invalid-required {
                 border-color: @input-border-color-caution;

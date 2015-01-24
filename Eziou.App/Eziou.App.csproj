@@ -98,11 +98,18 @@
     <Content Include="ng\Common\Notifier\_views\notifier.html" />
     <Content Include="ng\Common\States.js" />
     <Content Include="ng\Common\Store\Store.js" />
+    <Content Include="ng\Common\_directives\ezAutosize.js" />
+    <Content Include="ng\Common\_directives\input.js" />
+    <Content Include="ng\Common\_directives\autofocus.js" />
     <Content Include="ng\Config\Config.js" />
     <Content Include="ng\Events\Events.js" />
     <Content Include="ng\Events\EventsStates.js" />
     <Content Include="ng\Events\_controllers\EventCtrl.js" />
-    <Content Include="ng\Events\_views\main.html" />
+    <Content Include="ng\Events\_services\EventCalculator.js" />
+    <Content Include="ng\Events\_services\ParticipantExtender.js" />
+    <Content Include="ng\Events\_services\EventExtender.js" />
+    <Content Include="ng\Events\_views\main-a.html" />
+    <Content Include="ng\Events\_views\main-b.html" />
     <Content Include="Views\index.html" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -147,6 +154,8 @@
     <Content Include="less\components\notifier.less" />
     <None Include="js\BundleAndMinify.targets" />
     <Content Include="less\frameworks\animate.less" />
+    <Content Include="less\blocks\items.less" />
+    <Content Include="less\blocks\participants.less" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
