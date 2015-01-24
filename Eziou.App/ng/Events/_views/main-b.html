@@ -1,0 +1,67 @@
+﻿<style>
+    body {
+        font-size: x-large;
+    }
+
+    .purchasedBy {
+        background-color: rgba(0, 255, 33, .1);
+    }
+
+    input {
+        font-size: 1em;
+        border: none;
+    }
+</style>
+
+<div class="grid grid--y">
+    <h1 class="grid-cell g--fit">
+        <input class="grid-cell" ng-model="event.name" type="text" />
+    </h1>
+    <form class="grid grid--y" id="initial-participant" ng-hide="event.participants.length > 0">
+        <legend class="grid-cell g--fit">Who's making the event?</legend>
+
+        <label class="formcontrol">
+            <b class="formcontrol-label">Name</b>
+            <input class="formcontrol-input" type="text" id="txtInitialParticipantName" required ng-model="newParticipant.Name" />
+        </label>
+
+        <nav>
+            <button type="button" class="submit" ng-click="createParticipant()">Start splitting</button>
+        </nav>
+    </form>
+
+    <div class="grid grid--main-center" ng-show="event.participants.length > 0">
+        <div class="items grid grid--y g--fit">
+            <div class="items-item grid g--fit" ng-repeat="item in items">
+                <div class="items-name">
+                    <input class="grid-cell g--fit" type="text" ng-model="item.name" placeholder="Item" />
+                </div>
+
+                <ul class="grid items-people">
+                    <li class="grid-cell" ng-repeat="p in event.getParticipants(item)">{{p.name}}</li>
+                </ul>
+            </div>
+            <div class="grid-cell g--fit">
+                <input class="grid-cell" type="text" ng-model="newItem.name" placeholder="Add item" />
+            </div>
+        </div>
+
+        <!--<div class="grid g--fit" ng-repeat="participant in event.participants">
+            <div class="grid grid--y">
+                <input class=" grid-cell" type="text" ng-model="participant.name" placeholder="Participant name" />
+                <span class="grid-cell balance">{{calcBalance(participant) | currency:currencySymbol}}</span>
+            </div>
+
+            <label class="grid-cell" ng-repeat="item in items" ng-class="{'purchasedBy': participant.hasPurchased(item)}">
+                <input type="checkbox" ng-click="participant.toggleUse(item)" ng-checked="participant.usesItem(item)" />
+                {{calcUsage(item)}}
+            </label>
+        </div>
+        <div class="grid g--fit">
+            <div class="grid grid--y">
+                <input class=" grid-cell" type="text" ng-model="newParticipant.name" placeholder="Add participant name" />
+            </div>
+        </div>-->
+        
+    </div>
+</div>
