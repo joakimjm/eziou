@@ -33,15 +33,18 @@
             </div>
             <div class="grid grid--main-end grid--divide">
                 <div class="item grid" ng-repeat="item in items">
+                    <div class="grid grid--y">
+                        <div class="grid item-name  g--fit">
+                            <input class="formcontrol-input grid-cell g--fit" type="text" ng-model="item.name" placeholder="Item name" ng-if="item.isNew" autofocus ng-blur="removeNewState(item)" />
+                            <input class="formcontrol-input grid-cell g--fit" type="text" ng-model="item.name" placeholder="Item name" ng-if="!item.isNew" />
+                        </div>
+                        <label class="formcontrol grid item-price">
+                            <b class="formcontrol-label grid-cell g--fit">{{currencySymbol}}</b>
+                            <input class="formcontrol-input" type="number" ng-model="item.price" />
+                        </label>
+                    </div>
+
                     <button type="button" class="btn btn--icon grid-cell g--fit item-remove" ng-click="removeItem(item)"><i class="icon-trash"></i></button>
-                    <span class="grid-cell item-name">
-                        <input class="formcontrol-input grid-cell" type="text" ng-model="item.name" placeholder="Item name" ng-if="item.isNew" autofocus ng-blur="removeNewState(item)" />
-                        <input class="formcontrol-input grid-cell" type="text" ng-model="item.name" placeholder="Item name" ng-if="!item.isNew" />
-                    </span>
-                    <label class="formcontrol grid grid--main-end item-price">
-                        <b class="formcontrol-label">{{currencySymbol}}</b>
-                        <input class="formcontrol-input" type="number" ng-model="item.price" ez-autosize />
-                    </label>
                 </div>
             </div>
         </div>
@@ -67,7 +70,9 @@
             <!-- END: Participant -->
             <!-- BEGIN: Participant items -->
             <label class="grid grid--main-center grid--cross-center grid--divide" ng-repeat="item in items" ng-class="{'provider': participant.hasPurchased(item)}">
-                <input class="formcontrol-input grid-cell g--fit" type="checkbox" ng-click="participant.toggleUse(item)" ng-checked="participant.usesItem(item)" />
+                <span class="grid-cell">
+                    <input class="formcontrol-input grid-cell g--fit" type="checkbox" ng-click="participant.toggleUse(item)" ng-checked="participant.usesItem(item)" />
+                </span>
             </label>
             <!-- END: Participant items -->
         </div>

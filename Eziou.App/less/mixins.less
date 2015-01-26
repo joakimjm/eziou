@@ -222,9 +222,11 @@
 
 .form-control-focus-colors() {
     border-color: @brand-focus-color;
-    outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px @brand-focus-color;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px @brand-focus-color;
+    outline: 0 !important;
+    /*-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px @brand-focus-color;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px @brand-focus-color;*/
+    border: none;
+    box-shadow: none;
 }
 
 .disabled-state() {
