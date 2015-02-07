@@ -6,8 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="996b73834f04430780cbcfede5019f05" Name="Diagram1">
         <EntityTypeShape EntityType="Eziou.Infrastructure.DatabaseModel.Event" Width="1.5" PointX="0.75" PointY="1.375" />
-        <EntityTypeShape EntityType="Eziou.Infrastructure.DatabaseModel.Item" Width="1.5" PointX="3" PointY="1" />
-        <EntityTypeShape EntityType="Eziou.Infrastructure.DatabaseModel.Participant" Width="1.5" PointX="5.25" PointY="1.25" />
+        <EntityTypeShape EntityType="Eziou.Infrastructure.DatabaseModel.Item" Width="1.5" PointX="3.625" PointY="1" />
+        <EntityTypeShape EntityType="Eziou.Infrastructure.DatabaseModel.Participant" Width="1.5" PointX="6.625" PointY="1.375" />
         <AssociationConnector Association="Eziou.Infrastructure.DatabaseModel.FK_Event_Item" />
         <AssociationConnector Association="Eziou.Infrastructure.DatabaseModel.FK_Event_Participant" />
         <AssociationConnector Association="Eziou.Infrastructure.DatabaseModel.FK_Item_PurchasedBy" />

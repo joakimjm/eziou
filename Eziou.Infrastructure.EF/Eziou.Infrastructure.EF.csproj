@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntitiesExtensions.cs" />
     <Compile Include="Event.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

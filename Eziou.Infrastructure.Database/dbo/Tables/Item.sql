@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[Item]
 (
-	[Id] BIGINT NOT NULL PRIMARY KEY IDENTITY
+	[Id] uniqueidentifier NOT NULL PRIMARY KEY default(newid())
 	, [EventId] uniqueidentifier not null
-	, [ParticipantId] BIGINT not null
+	, [ParticipantId] uniqueidentifier not null
 	, [Name] nvarchar(max) not null
 	, [Description] nvarchar(max) null
 	, [Price] decimal(12,2) not null

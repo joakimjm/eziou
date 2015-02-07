@@ -20,7 +20,7 @@ namespace Eziou.Infrastructure.EF
             this.ConsumedItems = new HashSet<Item>();
         }
     
-        public long Id { get; set; }
+        public System.Guid Id { get; set; }
         public string Name { get; set; }
         public System.Guid EventId { get; set; }
         public System.DateTime CreatedDate { get; set; }

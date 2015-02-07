@@ -55,10 +55,11 @@
                                 $log.groupEnd();
                                 break;
                             case 404:
-                                $notifier.alert("404: Resource " + rejection.config.url + " not found.");
+                                //$notifier.alert("404: Resource " + rejection.config.url + " not found.");
                                 break;
                             case 401:
                                 //This is managed from the KUser-module.
+                                $q.reject(rejection);
                                 break;
                             case 403:
                                 if (rejection.data.Message) {

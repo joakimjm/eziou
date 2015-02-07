@@ -39,10 +39,25 @@ namespace Eziou.Api.Controllers
             return NotFound();
         }
 
-        //[Route(""), HttpPost, ResponseType(typeof(Core.Model.Event))]
-        //public async Task<IHttpActionResult> GetEventAsync(Core.Model.Event obj)
-        //{
-        //    var result = await eventRepo.CreateAsync(obj);
-        //}
+        [Route(""), HttpPost, ResponseType(typeof(Core.Model.Event))]
+        public async Task<IHttpActionResult> SaveEventAsync(Core.Model.Event obj)
+        {
+            var result = await eventRepo.CreateAsync(obj);
+
+            return Created(Request.RequestUri.ToString() + "/" + result.Id, result);
+        }
+
+        [Route("{id}"), HttpPut, ResponseType(typeof(Core.Model.Event))]
+        public async Task<IHttpActionResult> SaveEventAsync(Core.Model.Event obj)
+        {
+            var result = await eventRepo.SaveAsync(obj);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+
+            return NotFound();
+        }
     }
 }

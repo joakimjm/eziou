@@ -19,9 +19,9 @@ namespace Eziou.Infrastructure.EF
             this.Consumers = new HashSet<Participant>();
         }
     
-        public long Id { get; set; }
+        public System.Guid Id { get; set; }
         public System.Guid EventId { get; set; }
-        public long ParticipantId { get; set; }
+        public System.Guid ParticipantId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }

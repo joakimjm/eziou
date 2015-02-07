@@ -109,6 +109,7 @@
     <Compile Include="Config\BoostrapWebApi.cs" />
     <Compile Include="Config\Startup.cs" />
     <Compile Include="Controllers\EventController.cs" />
+    <Compile Include="Controllers\IdentifierController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

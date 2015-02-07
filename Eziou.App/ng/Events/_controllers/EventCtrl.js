@@ -5,8 +5,8 @@
     var controllerId = "EventCtrl";
 
     angular.module("Events").controller(controllerId,
-        ["$scope", "$timeout", "event",
-            function ($scope, $timeout, event) {
+        ["$scope", "$timeout", "Restangular", "event", "IdProvider",
+            function ($scope, $timeout, Restangular, event, IdProvider) {
                 $scope.newParticipant = {};
                 $scope.currencySymbol = "kr";
 
@@ -32,30 +32,52 @@
                 };
 
                 $scope.addItem = function (participant) {
-                    var item = {
-                        name: "New item for " + participant.name,
-                        price: 0.0,
-                        isNew: true
-                    };
+                    IdProvider.generate().then(function (id) {
+                        var item = {
+                            id: id,
+                            name: "New item for " + participant.name,
+                            price: 0.0,
+                            isNew: true
+                        };
 
-                    participant.purchasedItems.push(item);
+                        participant.purchasedItems.push(item);
 
-                    $scope.items = event.getItems();
+                        $scope.items = event.getItems();
 
-                    //$timeout(function () {
-                    //    delete item.isNew;
-                    //}, 1000);
+                        //$timeout(function () {
+                        //    delete item.isNew;
+                        //}, 1000);
+                    });
                 };
 
                 $scope.$watch('newParticipant.name', function (value) {
                     if (value) {
-                        event.addParticipant({ name: value });
+                        IdProvider.generate().then(function (id) {
+                            event.addParticipant({
+                                id: id,
+                                name: value
+                            });
+                        });
+
                         $scope.newParticipant.name = '';
                     }
                 });
 
                 $scope.removeNewState = function (item) {
                     item.isNew = false;
+                };
+
+                $scope.saveEvent = function (event) {
+                    if (!event.fromServer) {
+                        var events = Restangular.all("events");
+                        events.post(event).then(function () {
+                            alert("created!");
+                        });
+                    } else {
+                        event.put().then(function () {
+                            alert("updated!");
+                        });
+                    }
                 };
             }]);
 })();

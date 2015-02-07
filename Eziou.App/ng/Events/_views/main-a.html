@@ -16,11 +16,11 @@
 
         <label class="formcontrol">
             <b class="formcontrol-label">Name</b>
-            <input class="formcontrol-input" type="text" id="txtInitialParticipantName" required ng-model="newParticipant.Name" />
+            <input class="formcontrol-input grid-cell" type="text" ng-model="newParticipant.name" placeholder="Add participant" ng-model-options="{updateOn: 'blur'}" />
         </label>
 
         <nav>
-            <button type="button" class="submit" ng-click="createParticipant()">Start splitting</button>
+            <button type="button" class="submit">Start splitting</button>
         </nav>
     </form>
 
@@ -30,6 +30,7 @@
         <div class="items grid g--fit">
             <div class="grid-cell g--1of5">
                 <!--<span class="grid-cell">Participants</span>-->
+                <button type="button" class="btn btn--icon grid-cell g--fit" ng-click="saveEvent(event)"><i class="icon-save"></i>Save</button>
             </div>
             <div class="grid grid--main-end grid--divide">
                 <div class="item grid" ng-repeat="item in items">
@@ -78,7 +79,7 @@
         </div>
         <div class="grid g--fit">
             <div class="grid g--1of5 grid--y">
-                <input class="formcontrol-input  grid-cell" type="text" ng-model="newParticipant.name" placeholder="Add participant" ng-model-options="{updateOn: 'blur'}" />
+                <input class="formcontrol-input grid-cell" type="text" ng-model="newParticipant.name" placeholder="Add participant" ng-model-options="{updateOn: 'blur'}" />
             </div>
         </div>
         <!-- END: Participants -->

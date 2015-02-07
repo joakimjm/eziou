@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Participant]
 (
-	[Id] BIGINT NOT NULL PRIMARY KEY IDENTITY
+	[Id] uniqueidentifier NOT NULL PRIMARY KEY default(newid())
 	, [Name] nvarchar(max) not null
 	, [EventId] uniqueidentifier not null
 	, [CreatedDate] DATETIME NOT NULL default(getutcdate())

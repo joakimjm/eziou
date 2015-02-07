@@ -106,6 +106,7 @@
     <Content Include="ng\Events\EventsStates.js" />
     <Content Include="ng\Events\_controllers\EventCtrl.js" />
     <Content Include="ng\Events\_services\EventCalculator.js" />
+    <Content Include="ng\Events\_services\IdProvider.js" />
     <Content Include="ng\Events\_services\ParticipantExtender.js" />
     <Content Include="ng\Events\_services\EventExtender.js" />
     <Content Include="ng\Events\_views\main-a.html" />
