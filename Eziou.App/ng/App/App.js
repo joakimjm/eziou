@@ -9,6 +9,6 @@
         "ui.router",
         "Config",
         "Notifier",
-        "Events"
+        "Events" 
     ]);
 })();
