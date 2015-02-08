@@ -50,18 +50,29 @@
                     });
                 };
 
-                $scope.$watch('newParticipant.name', function (value) {
-                    if (value) {
-                        IdProvider.generate().then(function (id) {
-                            event.addParticipant({
-                                id: id,
-                                name: value
-                            });
-                        });
+                //$scope.$watch('newParticipant.name', function (value) {
+                //    if (value) {
+                //        IdProvider.generate().then(function (id) {
+                //            event.addParticipant({
+                //                id: id,
+                //                name: value
+                //            });
+                //            $scope.newParticipant.name = '';
+                //        });  
+                //    }
+                //});
 
+                $scope.submitParticipant = function(){
+                    IdProvider.generate().then(function (id) {
+                        event.addParticipant({
+                            id: id,
+                            name: angular.copy($scope.newParticipant.name)
+                        });
                         $scope.newParticipant.name = '';
-                    }
-                });
+                    });  
+                }
+
+                
 
                 $scope.removeNewState = function (item) {
                     item.isNew = false;
