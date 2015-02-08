@@ -140,9 +140,9 @@ namespace Eziou.Data
                     {
                         //Create
                         dbParticipant = mapper.Map<Participant>(participant);
-                        dbParticipant.EventId = dbEvent.Id;
                         dbParticipant.ProvidedItems = new List<Item>();
-                        ctx.Participants.Add(dbParticipant);
+                        dbEvent.Participants.Add(dbParticipant);
+                        //ctx.Participants.Add(dbParticipant);
                         //await ctx.SaveChangesAsync();
                     }
 
@@ -169,27 +169,12 @@ namespace Eziou.Data
 
                         currentItems.Add(dbItem);
                     }
-
-                    foreach (var item in participant.Items)
-                    {
-                        var dbItem = dbParticipant.ConsumedItems.FirstOrDefault(x => x.Id == item.Id);
-
-                        if (dbItem != null)
-                        {
-                            //Update
-                            dbItem.Name = item.Name;
-                            dbItem.LastModified = DateTime.UtcNow;
-                        }
-                        else
-                        {
-                            //create
-                            dbItem = mapper.Map<Item>(item);
-                            //dbItem.ParticipantId = dbParticipant.Id;
-                            dbEvent.Items.Add(dbItem);
-                            dbParticipant.ProvidedItems.Add(dbItem);
-                        }
-                    }
                 }
+
+                /*
+                 * Now that all participants and unique items have been saved,
+                 * we can process consumed items
+                 */
 
                 //Clean up participants
                 foreach (var participant in dbEvent.Participants)
@@ -197,6 +182,22 @@ namespace Eziou.Data
                     if (!currentParticipants.Any(x => x.Id == participant.Id))
                     {
                         dbEvent.Participants.Remove(participant);
+                        continue;
+                    }
+
+                    participant.ConsumedItems.Clear();
+                    foreach (var item in obj.Participants.First(x => x.Id == participant.Id).Items)
+                    {
+                        var dbItem = currentItems.First(x => x.Id == item.Id);
+                        /*
+                         * All items have been purchased by someone,
+                         * so we don't need to update them again here.
+                         * We just need to ensure that participant's
+                         * currently consumed items match the ones on
+                         * the current event.
+                         */
+
+                        participant.ConsumedItems.Add(dbItem);
                     }
                 }
 

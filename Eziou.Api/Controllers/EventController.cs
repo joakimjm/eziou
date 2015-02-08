@@ -40,7 +40,7 @@ namespace Eziou.Api.Controllers
         }
 
         [Route(""), HttpPost, ResponseType(typeof(Core.Model.Event))]
-        public async Task<IHttpActionResult> SaveEventAsync(Core.Model.Event obj)
+        public async Task<IHttpActionResult> CreateEventAsync(Core.Model.Event obj)
         {
             var result = await eventRepo.CreateAsync(obj);
 
