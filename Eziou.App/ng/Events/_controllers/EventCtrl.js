@@ -25,6 +25,7 @@
                     $scope.items = event.getItems();
                 };
 
+
                 $scope.removeItem = function (item) {
                     event.removeItem(item);
 

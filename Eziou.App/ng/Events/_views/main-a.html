@@ -11,7 +11,7 @@
 <div class="grid grid--y grid--gutters-between">
     <input class="formcontrol-input t-center t-xlarge" ng-model="event.name" type="text" />
 
-    <form class="grid grid--y" id="initial-participant" ng-hide="event.participants.length > 0">
+    <!--<form class="grid grid--y" id="initial-participant" ng-hide="event.participants.length > 0">
         <h2 class="grid-cell g--fit">Who's making the event?</h2>
 
         <label class="formcontrol">
@@ -22,15 +22,15 @@
         <nav>
             <button type="button" class="submit">Start splitting</button>
         </nav>
-    </form>
+    </form>-->
 
-    <div class="grid grid--y" ng-show="event.participants.length > 0">
+    <div class="grid grid--y">
 
         <!-- BEGIN: Header; list of items -->
         <div class="items grid g--fit">
             <div class="grid-cell g--1of5">
                 <!--<span class="grid-cell">Participants</span>-->
-                <button type="button" class="btn btn--icon grid-cell g--fit" ng-click="saveEvent(event)"><i class="icon-save"></i>Save</button>
+                <button type="button" class="btn btn--icon grid-cell g--fit" ng-click="saveEvent(event)" ng-disabled="participants.length == 0 || items.length == 0"><i class="icon-save"></i>Save</button>
             </div>
             <div class="grid grid--main-end grid--divide">
                 <div class="item grid" ng-repeat="item in items">
@@ -79,7 +79,11 @@
         </div>
         <div class="grid g--fit">
             <div class="grid g--1of5 grid--y">
-                <input class="formcontrol-input grid-cell" type="text" ng-model="newParticipant.name" placeholder="Add participant" ng-model-options="{updateOn: 'blur'}" />
+                <form ng-submit="submitParticipant()">
+                    <input class="formcontrol-input grid-cell" type="text" name="name" ng-model="newParticipant.name" placeholder="Add participant" />
+                    <input type="submit" id="submit" />
+                </form>
+                <!--<input class="formcontrol-input grid-cell" type="text" ng-model="newParticipant.name" placeholder="Add participant" ng-model-options="{updateOn: 'submit'}" />-->
             </div>
         </div>
         <!-- END: Participants -->
