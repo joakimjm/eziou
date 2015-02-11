@@ -12,8 +12,8 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ExpirationDate" Type="datetime" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
-          <Property Name="LastModified" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="LastModified" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -25,8 +25,8 @@
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Price" Type="decimal" Precision="12" Scale="2" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
-          <Property Name="LastModified" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="LastModified" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Participant">
           <Key>
@@ -35,8 +35,8 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="EventId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
-          <Property Name="LastModified" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="LastModified" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Participant_Item">
           <Key>
@@ -168,8 +168,8 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ExpirationDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Items" Relationship="Eziou.Infrastructure.DatabaseModel.FK_Event_Item" FromRole="Event" ToRole="Item" />
           <NavigationProperty Name="Participants" Relationship="Eziou.Infrastructure.DatabaseModel.FK_Event_Participant" FromRole="Event" ToRole="Participant" />
         </EntityType>
@@ -183,8 +183,8 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Event" Relationship="Eziou.Infrastructure.DatabaseModel.FK_Event_Item" FromRole="Item" ToRole="Event" />
           <NavigationProperty Name="Provider" Relationship="Eziou.Infrastructure.DatabaseModel.FK_Item_PurchasedBy" FromRole="Item" ToRole="Participant" />
           <NavigationProperty Name="Consumers" Relationship="Eziou.Infrastructure.DatabaseModel.Participant_Item" FromRole="Item" ToRole="Participant" />
@@ -196,8 +196,8 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EventId" Type="Guid" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Event" Relationship="Eziou.Infrastructure.DatabaseModel.FK_Event_Participant" FromRole="Participant" ToRole="Event" />
           <NavigationProperty Name="ProvidedItems" Relationship="Eziou.Infrastructure.DatabaseModel.FK_Item_PurchasedBy" FromRole="Participant" ToRole="Item" />
           <NavigationProperty Name="ConsumedItems" Relationship="Eziou.Infrastructure.DatabaseModel.Participant_Item" FromRole="Participant" ToRole="Item" />

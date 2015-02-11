@@ -9,7 +9,11 @@
 </style>
 
 <div class="grid grid--y grid--gutters-between">
-    <input class="formcontrol-input t-center t-xlarge" ng-model="event.name" type="text" />
+    <input class="formcontrol-input t-center t-xlarge" ng-model="event.name" type="text" ng-click="event.name = ''" />
+
+    <p ng-show="participants.length == 0">Start by adding a participant to your event</p>
+    <p ng-show="participants.length > 0 && items.length == 0">You can add an item by hovering over a participant a clicking the plus icon</p>
+
 
     <!--<form class="grid grid--y" id="initial-participant" ng-hide="event.participants.length > 0">
         <h2 class="grid-cell g--fit">Who's making the event?</h2>
