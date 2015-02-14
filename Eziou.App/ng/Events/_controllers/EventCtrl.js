@@ -19,6 +19,10 @@
                 $scope.calcShare = event.calcShare;
                 $scope.calcBalance = event.calcBalance;
 
+                $scope.splitTheBill = event.splitTheBill;
+
+                //event.splitTheBill($scope.event);
+
                 $scope.removeParticipant = function (p) {
                     event.removeParticipant(p);
 
@@ -63,7 +67,8 @@
                 //    }
                 //});
 
-                $scope.submitParticipant = function(){
+                $scope.submitParticipant = function () {
+                    console.log("It works");
                     IdProvider.generate().then(function (id) {
                         event.addParticipant({
                             id: id,

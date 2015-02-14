@@ -19,6 +19,7 @@
         service.usage = calcUsage;
         service.share = calcShare;
         service.balance = calcBalance;
+        service.splitTheBill = splitTheBill;
         return service;
 
         //#region private methods
@@ -86,6 +87,92 @@
             //console.log(participant.name, sum);
             return sum;
         }
+
+        function splitTheBill(event) {
+
+            var peopleToPay = {};
+            peopleToPay.addParticipantToList = addParticipantToList;
+            peopleToPay.list = [];
+
+            var peopleToReceive = {};
+            peopleToReceive.list = [];
+            peopleToReceive.addParticipantToList = addParticipantToList;
+ 
+            
+            angular.forEach(event.participants, function (participant) {
+                
+                var currentBalance = calcBalance(participant);
+                if (currentBalance < 0) {
+                    peopleToReceive.addParticipantToList({name: participant.name, balance: -currentBalance });
+                } else if (currentBalance > 0) {
+                    peopleToPay.addParticipantToList({name: participant.name, balance: currentBalance })
+                }
+            })
+
+            
+            var maxIteration = 1000;
+            for (var iteration = 0; iteration < maxIteration; iteration++) {
+                if (peopleToReceive.list.length == 0 || peopleToPay.list.length == 0) {
+                    console.log("Stop splitting", iteration);
+                    break;
+                }
+
+                showList(peopleToPay.list,"pay");
+                showList(peopleToReceive.list, "receive");
+                
+                var currentPayer = peopleToPay.list.pop();
+                var currentReceiver = peopleToReceive.list.shift();   
+                if (currentPayer.balance === currentReceiver.balance) {
+                    console.log(currentPayer.person.name + " betaler " + currentPayer.balance + " til " + currentReceiver.person.name);
+                } else if (currentPayer.balance < currentReceiver.balance) {
+                    console.log(currentPayer.person.name + " betaler " + currentPayer.balance + " til " + currentReceiver.person.name);
+
+                    currentReceiver.balance -= currentPayer.balance
+                    peopleToReceive.addParticipantToList(currentReceiver);
+                } else {
+                    console.log(currentPayer.person.name + " betaler " + currentReceiver.balance + " til " + currentReceiver.person.name);
+                    currentPayer.balance -= currentReceiver.balance;                    
+                    peopleToPay.addParticipantToList(currentPayer);
+                }
+                console.log("");
+            }
+        }
+
+        //split the bill helper function
+        function addParticipantToList(obj) {
+            if (this.list.length == 0) {
+                this.list.push(obj);
+                return;
+            };
+
+            for (var i = 0; i < this.list.length; i++) {
+                if(obj.balance > this.list[i].balance ){
+                    this.list.splice(i, 0, obj);
+                    return;
+                }
+                if (i == this.list.length - 1) {
+                    this.list.push(obj);                    
+                }
+            }
+        }
+
+        //split the bill helper function
+        function showList(list,payOrReceive) {
+            var string = "";
+            
+            angular.forEach(list, function (participant) {
+                if (payOrReceive === "receive") {
+                    string += participant.name + " mangler at modtage " + participant.balance + ", ";
+                }
+                if (payOrReceive === "pay") {
+                    string += participant.name + " mangler at betale " + participant.balance + ", ";
+                }
+
+            });
+            console.log(string);
+        }
+
+
         //#endregion
     }
 })();

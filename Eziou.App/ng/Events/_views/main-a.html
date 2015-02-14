@@ -84,8 +84,8 @@
         <div class="grid g--fit">
             <div class="grid g--1of5 grid--y">
                 <form ng-submit="submitParticipant()">
-                    <input class="formcontrol-input grid-cell" type="text" name="name" ng-model="newParticipant.name" placeholder="Add participant" />
-                    <input type="submit" id="submit" />
+                    <input class="formcontrol-input grid-cell" type="text" name="name" ng-model="newParticipant.name" placeholder="Add participant" autocomplete="off" />
+                    <input type="submit" style="position:absolute;left:-9999px"></input>
                 </form>
                 <!--<input class="formcontrol-input grid-cell" type="text" ng-model="newParticipant.name" placeholder="Add participant" ng-model-options="{updateOn: 'submit'}" />-->
             </div>
@@ -93,3 +93,6 @@
         <!-- END: Participants -->
     </div>
 </div>
+
+<div>OBS! Løsningen står i consolen</div>
+<button ng-click="splitTheBill(event);" ng-disabled="participants.length == 0 || items.length == 0">SPLIT IT!</button>
