@@ -85,7 +85,7 @@
             <div class="grid g--1of5 grid--y">
                 <form ng-submit="submitParticipant()">
                     <input class="formcontrol-input grid-cell" type="text" name="name" ng-model="newParticipant.name" placeholder="Add participant" autocomplete="off" />
-                    <input type="submit" style="position:absolute;left:-9999px"></input>
+                    <input type="submit" ng-disabled="newParticipant.name == null || newParticipant.name == ''" style="position:absolute;left:-9999px"></input>
                 </form>
                 <!--<input class="formcontrol-input grid-cell" type="text" ng-model="newParticipant.name" placeholder="Add participant" ng-model-options="{updateOn: 'submit'}" />-->
             </div>

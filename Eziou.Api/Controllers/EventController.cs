@@ -42,9 +42,16 @@ namespace Eziou.Api.Controllers
         [Route(""), HttpPost, ResponseType(typeof(Core.Model.Event))]
         public async Task<IHttpActionResult> CreateEventAsync(Core.Model.Event obj)
         {
-            var result = await eventRepo.CreateAsync(obj);
+            try
+            {
+                var result = await eventRepo.CreateAsync(obj);
 
-            return Created(Request.RequestUri.ToString() + "/" + result.Id, result);
+                return Created(Request.RequestUri.ToString() + "/" + result.Id, result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
         [Route("{id}"), HttpPut, ResponseType(typeof(Core.Model.Event))]

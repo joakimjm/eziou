@@ -123,14 +123,14 @@
                 var currentPayer = peopleToPay.list.pop();
                 var currentReceiver = peopleToReceive.list.shift();   
                 if (currentPayer.balance === currentReceiver.balance) {
-                    console.log(currentPayer.person.name + " betaler " + currentPayer.balance + " til " + currentReceiver.person.name);
+                    console.log(currentPayer.name + " betaler " + currentPayer.balance + " til " + currentReceiver.name);
                 } else if (currentPayer.balance < currentReceiver.balance) {
-                    console.log(currentPayer.person.name + " betaler " + currentPayer.balance + " til " + currentReceiver.person.name);
+                    console.log(currentPayer.name + " betaler " + currentPayer.balance + " til " + currentReceiver.name);
 
                     currentReceiver.balance -= currentPayer.balance
                     peopleToReceive.addParticipantToList(currentReceiver);
                 } else {
-                    console.log(currentPayer.person.name + " betaler " + currentReceiver.balance + " til " + currentReceiver.person.name);
+                    console.log(currentPayer.name + " betaler " + currentReceiver.balance + " til " + currentReceiver.name);
                     currentPayer.balance -= currentReceiver.balance;                    
                     peopleToPay.addParticipantToList(currentPayer);
                 }
