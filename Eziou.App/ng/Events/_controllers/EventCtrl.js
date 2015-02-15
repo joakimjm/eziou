@@ -68,7 +68,7 @@
                 //});
 
                 $scope.submitParticipant = function () {
-                    console.log("It works");
+                    //console.log("It works");
                     IdProvider.generate().then(function (id) {
                         event.addParticipant({
                             id: id,

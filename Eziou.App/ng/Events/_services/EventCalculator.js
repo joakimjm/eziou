@@ -103,22 +103,25 @@
                 
                 var currentBalance = calcBalance(participant);
                 if (currentBalance < 0) {
-                    peopleToReceive.addParticipantToList({name: participant.name, balance: -currentBalance });
+                    peopleToReceive.addParticipantToList({name: participant.name, balance: round(-currentBalance) });
                 } else if (currentBalance > 0) {
-                    peopleToPay.addParticipantToList({name: participant.name, balance: currentBalance })
+                    peopleToPay.addParticipantToList({name: participant.name, balance: round(currentBalance) })
                 }
             })
 
+            showList(peopleToPay.list, "pay");
+            showList(peopleToReceive.list, "receive");
+
             
-            var maxIteration = 1000;
+            var maxIteration = 10;
             for (var iteration = 0; iteration < maxIteration; iteration++) {
                 if (peopleToReceive.list.length == 0 || peopleToPay.list.length == 0) {
                     console.log("Stop splitting", iteration);
                     break;
                 }
 
-                showList(peopleToPay.list,"pay");
-                showList(peopleToReceive.list, "receive");
+                //showList(peopleToPay.list,"pay");
+                //showList(peopleToReceive.list, "receive");
                 
                 var currentPayer = peopleToPay.list.pop();
                 var currentReceiver = peopleToReceive.list.shift();   
@@ -154,6 +157,11 @@
                     this.list.push(obj);                    
                 }
             }
+        }
+
+        function round(float) {
+            var decimalPoint = 5;
+            return Math.round((float * 10 * decimalPoint)) / (10 * decimalPoint);
         }
 
         //split the bill helper function
