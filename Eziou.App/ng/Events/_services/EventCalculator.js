@@ -97,22 +97,19 @@
             var peopleToReceive = {};
             peopleToReceive.list = [];
             peopleToReceive.addParticipantToList = addParticipantToList;
- 
-            
+
             angular.forEach(event.participants, function (participant) {
-                
                 var currentBalance = calcBalance(participant);
                 if (currentBalance < 0) {
-                    peopleToReceive.addParticipantToList({name: participant.name, balance: round(-currentBalance) });
+                    peopleToReceive.addParticipantToList({ name: participant.name, balance: rounder(-currentBalance) });
                 } else if (currentBalance > 0) {
-                    peopleToPay.addParticipantToList({name: participant.name, balance: round(currentBalance) })
+                    peopleToPay.addParticipantToList({ name: participant.name, balance: rounder(currentBalance) });
                 }
             })
-
             showList(peopleToPay.list, "pay");
             showList(peopleToReceive.list, "receive");
 
-            
+
             var maxIteration = 10;
             for (var iteration = 0; iteration < maxIteration; iteration++) {
                 if (peopleToReceive.list.length == 0 || peopleToPay.list.length == 0) {
@@ -122,9 +119,9 @@
 
                 //showList(peopleToPay.list,"pay");
                 //showList(peopleToReceive.list, "receive");
-                
+
                 var currentPayer = peopleToPay.list.pop();
-                var currentReceiver = peopleToReceive.list.shift();   
+                var currentReceiver = peopleToReceive.list.shift();
                 if (currentPayer.balance === currentReceiver.balance) {
                     console.log(currentPayer.name + " betaler " + currentPayer.balance + " til " + currentReceiver.name);
                 } else if (currentPayer.balance < currentReceiver.balance) {
@@ -134,7 +131,7 @@
                     peopleToReceive.addParticipantToList(currentReceiver);
                 } else {
                     console.log(currentPayer.name + " betaler " + currentReceiver.balance + " til " + currentReceiver.name);
-                    currentPayer.balance -= currentReceiver.balance;                    
+                    currentPayer.balance -= currentReceiver.balance;
                     peopleToPay.addParticipantToList(currentPayer);
                 }
                 console.log("");
@@ -149,35 +146,37 @@
             };
 
             for (var i = 0; i < this.list.length; i++) {
-                if(obj.balance > this.list[i].balance ){
+                if (obj.balance > this.list[i].balance) {
                     this.list.splice(i, 0, obj);
                     return;
                 }
+
                 if (i == this.list.length - 1) {
-                    this.list.push(obj);                    
+                    this.list.push(obj);
+                    return;
                 }
             }
         }
 
-        function round(float) {
+        function rounder(num) {
             var decimalPoint = 5;
-            return Math.round((float * 10 * decimalPoint)) / (10 * decimalPoint);
+            return Math.round((num * 10 * decimalPoint)) / (10 * decimalPoint);
         }
 
         //split the bill helper function
-        function showList(list,payOrReceive) {
-            var string = "";
-            
+        function showList(list, payOrReceive) {
+            var str = "";
+
             angular.forEach(list, function (participant) {
                 if (payOrReceive === "receive") {
-                    string += participant.name + " mangler at modtage " + participant.balance + ", ";
+                    str += participant.name + " mangler at modtage " + participant.balance + ", ";
                 }
                 if (payOrReceive === "pay") {
-                    string += participant.name + " mangler at betale " + participant.balance + ", ";
+                    str += participant.name + " mangler at betale " + participant.balance + ", ";
                 }
 
             });
-            console.log(string);
+            console.log(str);
         }
 
 
