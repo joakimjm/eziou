@@ -63,7 +63,7 @@
                     <div class="grid">
                         <input class="formcontrol-input grid-cell g--fit" type="text" ng-model="participant.name" placeholder="Participant name" ez-autosize />
                     </div>
-
+                    <span class="grid-cell balance">{{calcCost(participant) | currency:currencySymbol}}</span>
                     <span class="grid-cell balance">{{calcBalance(participant) | currency:currencySymbol}}</span>
                 </div>
 
