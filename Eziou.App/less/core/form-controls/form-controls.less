@@ -166,7 +166,7 @@ input[type="search"] {
             background-color: @input-bg;
             margin-top: .1em;
             padding: 0;
-            font-family: 'icon-font';
+            font-family: 'eziou';
             speak: none;
             font-style: normal;
             font-weight: normal;
@@ -175,7 +175,7 @@ input[type="search"] {
             line-height: 1;
 
             &:before {
-                content: "\e617"; // 1
+                content: " "; // 1
                 background-color: inherit;
                 color: @input-color;
                 cursor: pointer;
@@ -186,7 +186,7 @@ input[type="search"] {
         ////////////////////////////////////////////////////////////////////////////////
         &:checked + .formcontrol-input {
             &:before {
-                content: "\e615";
+                content: "\e60d";
             }
         }
 

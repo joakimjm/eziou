@@ -28,17 +28,7 @@
                 }
             };
 
-            //var stateA = angular.copy(state);
-            //stateA.url = "/a";
-            //stateA.templateUrl = "ng/events/_views/main-a.html";
-            //var stateB = angular.copy(state);
-            //stateB.url = "/b";
-            //stateB.templateUrl = "ng/events/_views/main-b.html";
-
             $stateProvider
-                //.state("event", state)
-                //.state("eventA", stateA)
-                //.state("eventB", stateB)
                 .state("newEvent", { url: "" })
                 .state("event", state);
         }])
