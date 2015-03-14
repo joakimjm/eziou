@@ -75,10 +75,32 @@
                             name: angular.copy($scope.newParticipant.name)
                         });
                         $scope.newParticipant.name = '';
-                    });  
+                    });
                 }
 
-                
+                $scope.changeName = function (obj) {
+                    var newName = prompt("Enter a new name for " + obj.name, obj.name);
+
+                    if (newName) {
+                        obj.name = newName;
+                    }
+                };
+
+                $scope.changePrice = function (obj) {
+                    var newPrice = prompt("Enter a price for " + obj.name, obj.price);
+                    if (!newPrice) {
+                        return;
+                    }
+                    try {
+                        newPrice = parseFloat(newPrice);
+                        if (!isNaN(newPrice)) {
+                            obj.price = newPrice;
+                        }
+                    } catch (e) {
+
+                    }
+                };
+
 
                 $scope.removeNewState = function (item) {
                     item.isNew = false;

@@ -1,4 +1,8 @@
 ﻿<style>
+    .main {
+        overflow-x: hidden;
+    }
+
     .provider {
         background-color: rgba(0, 255, 33, .1);
     }
@@ -6,93 +10,99 @@
     .participant {
         border-bottom: 1px solid #ccc;
     }
+
+    .editable {
+        cursor: pointer;
+    }
+
+    .editable:hover {
+        text-decoration: underline;
+    }
 </style>
 
-<div class="grid grid--y grid--gutters-between">
-    <input class="formcontrol-input t-center t-xlarge" ng-model="event.name" type="text" ng-click="event.name = ''" />
+<div class="grid g--scroll main">
+    <div class="grid grid--y grid--gutters-between">
+        <!--<input class="formcontrol-input t-center t-xlarge" ng-model="event.name" type="text" ng-click="event.name = ''" />-->
+        <div class="grid g--fit grid--main-center">
+            <button type="button" class="btn btn--icon grid-cell g--fit" ng-click="saveEvent(event)" ng-disabled="participants.length == 0 || items.length == 0"><i class="icon-save"></i></button>
+            <h2 class="grid-cell g--fit editable" ng-click="changeName(event);">{{event.name}}</h2>
+        </div>
 
-    <p ng-show="participants.length == 0">Start by adding a participant to your event</p>
-    <p ng-show="participants.length > 0 && items.length == 0">You can add an item by hovering over a participant a clicking the plus icon</p>
 
+        <p ng-show="participants.length == 0">Start by adding a participant to your event</p>
+        <p ng-show="participants.length > 0 && items.length == 0">You can add an item by hovering over a participant a clicking the plus icon</p>
 
-    <!--<form class="grid grid--y" id="initial-participant" ng-hide="event.participants.length > 0">
-        <h2 class="grid-cell g--fit">Who's making the event?</h2>
+        <div class="grid grid--y">
 
-        <label class="formcontrol">
-            <b class="formcontrol-label">Name</b>
-            <input class="formcontrol-input grid-cell" type="text" ng-model="newParticipant.name" placeholder="Add participant" ng-model-options="{updateOn: 'blur'}" />
-        </label>
+            <!-- BEGIN: Header; list of items -->
+            <div class="items grid g--fit">
+                <div class="grid-cell g--1of5">
+                    <!--<span class="grid-cell">Participants</span>-->
 
-        <nav>
-            <button type="button" class="submit">Start splitting</button>
-        </nav>
-    </form>-->
-
-    <div class="grid grid--y">
-
-        <!-- BEGIN: Header; list of items -->
-        <div class="items grid g--fit">
-            <div class="grid-cell g--1of5">
-                <!--<span class="grid-cell">Participants</span>-->
-                <button type="button" class="btn btn--icon grid-cell g--fit" ng-click="saveEvent(event)" ng-disabled="participants.length == 0 || items.length == 0"><i class="icon-save"></i>Save</button>
-            </div>
-            <div class="grid grid--main-end grid--divide">
-                <div class="item grid" ng-repeat="item in items">
-                    <div class="grid grid--y">
-                        <div class="grid item-name  g--fit">
-                            <input class="formcontrol-input grid-cell g--fit" type="text" ng-model="item.name" placeholder="Item name" ng-if="item.isNew" autofocus ng-blur="removeNewState(item)" />
-                            <input class="formcontrol-input grid-cell g--fit" type="text" ng-model="item.name" placeholder="Item name" ng-if="!item.isNew" />
+                </div>
+                <div class="grid grid--main-end grid--divide">
+                    <div class="item grid grid--gutters" ng-repeat="item in items">
+                        <div class="grid grid--y">
+                            <div class="grid item-name g--fit editable" ng-click="changeName(item);">
+                                {{item.name}}
+                                <!--<input class="formcontrol-input grid-cell g--fit" type="text" ng-model="item.name" placeholder="Item name" ng-if="item.isNew" autofocus ng-blur="removeNewState(item)" />
+                                <input class="formcontrol-input grid-cell g--fit" type="text" ng-model="item.name" placeholder="Item name" ng-if="!item.isNew" />-->
+                            </div>
+                            <label class="formcontrol grid item-price editable" ng-click="changePrice(item);">
+                                <b class="formcontrol-label grid-cell g--fit">{{item.price | currency:currencySymbol}}</b>
+                                <!--<input class="formcontrol-input" type="number" ng-model="item.price" />-->
+                            </label>
                         </div>
-                        <label class="formcontrol grid item-price">
-                            <b class="formcontrol-label grid-cell g--fit">{{currencySymbol}}</b>
-                            <input class="formcontrol-input" type="number" ng-model="item.price" />
-                        </label>
+
+                        <button type="button" class="btn btn--icon grid-cell g--fit item-remove btn--small u-margin-l--right" ng-click="removeItem(item)"><i class="icon-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+            <!-- END: Header -->
+            <!-- BEGIN: Participants -->
+            <div class="participant grid g--fit" ng-repeat="participant in event.participants">
+
+                <!-- BEGIN: Participant -->
+                <div class="grid g--1of5">
+                    <div class="grid grid--y">
+                        <div class="grid-cell editable" ng-click="changeName(participant);">
+                            <!--<input class="formcontrol-input grid-cell g--fit" type="text" ng-model="participant.name" placeholder="Participant name" ez-autosize />-->
+                            {{participant.name}}
+                        </div>
+
+                        <span class="grid-cell balance">{{calcBalance(participant) | currency:currencySymbol}}</span>
                     </div>
 
-                    <button type="button" class="btn btn--icon grid-cell g--fit item-remove" ng-click="removeItem(item)"><i class="icon-trash"></i></button>
-                </div>
-            </div>
-        </div>
-        <!-- END: Header -->
-        <!-- BEGIN: Participants -->
-        <div class="participant grid g--fit" ng-repeat="participant in event.participants">
-
-            <!-- BEGIN: Participant -->
-            <div class="grid g--1of5">
-                <div class="grid grid--y">
-                    <div class="grid">
-                        <input class="formcontrol-input grid-cell g--fit" type="text" ng-model="participant.name" placeholder="Participant name" ez-autosize />
+                    <div class="grid grid--main-end grid--cross-center u-margin-l--right">
+                        <button type="button" class="btn btn--icon grid-cell g--fit participant-remove" ng-click="removeParticipant(participant)"><i class="icon-trash"></i></button>
+                        <button type="button" class="btn btn--icon" ng-click="addItem(participant)"><i class="icon-add"></i></button>
                     </div>
-
-                    <span class="grid-cell balance">{{calcBalance(participant) | currency:currencySymbol}}</span>
                 </div>
-
-                <div class="grid grid--main-end grid--cross-center u-margin-l--right">
-                    <button type="button" class="btn btn--icon grid-cell g--fit participant-remove" ng-click="removeParticipant(participant)"><i class="icon-trash"></i></button>
-                    <button type="button" class="btn btn--icon" ng-click="addItem(participant)"><i class="icon-add"></i></button>
+                <!-- END: Participant -->
+                <!-- BEGIN: Participant items -->
+                <label class="grid grid--main-center grid--cross-center" ng-repeat="item in items" ng-class="{'provider': participant.hasPurchased(item)}">
+                    <span class="formcontrol grid-cell g--fit">
+                        <input type="checkbox" ng-click="participant.toggleUse(item)" ng-checked="participant.usesItem(item)" />
+                        <i class="formcontrol-input grid-cell g--fit g--cross-start g--gutter-right"></i>
+                    </span>
+                </label>
+                <!-- END: Participant items -->
+            </div>
+            <div class="grid g--fit">
+                <div class="grid g--1of5 grid--y">
+                    <form ng-submit="submitParticipant()">
+                        <input class="formcontrol-input grid-cell" type="text" name="name" ng-model="newParticipant.name" placeholder="Add participant" autocomplete="off" />
+                        <input type="submit" ng-disabled="newParticipant.name == null || newParticipant.name == ''" style="position:absolute;left:-9999px"></input>
+                    </form>
+                    <!--<input class="formcontrol-input grid-cell" type="text" ng-model="newParticipant.name" placeholder="Add participant" ng-model-options="{updateOn: 'submit'}" />-->
                 </div>
             </div>
-            <!-- END: Participant -->
-            <!-- BEGIN: Participant items -->
-            <label class="grid grid--main-center grid--cross-center grid--divide" ng-repeat="item in items" ng-class="{'provider': participant.hasPurchased(item)}">
-                <span class="grid-cell">
-                    <input class="formcontrol-input grid-cell g--fit" type="checkbox" ng-click="participant.toggleUse(item)" ng-checked="participant.usesItem(item)" />
-                </span>
-            </label>
-            <!-- END: Participant items -->
+            <!-- END: Participants -->
         </div>
-        <div class="grid g--fit">
-            <div class="grid g--1of5 grid--y">
-                <form ng-submit="submitParticipant()">
-                    <input class="formcontrol-input grid-cell" type="text" name="name" ng-model="newParticipant.name" placeholder="Add participant" autocomplete="off" />
-                    <input type="submit" ng-disabled="newParticipant.name == null || newParticipant.name == ''" style="position:absolute;left:-9999px"></input>
-                </form>
-                <!--<input class="formcontrol-input grid-cell" type="text" ng-model="newParticipant.name" placeholder="Add participant" ng-model-options="{updateOn: 'submit'}" />-->
-            </div>
-        </div>
-        <!-- END: Participants -->
     </div>
 </div>
 
-<div>OBS! Løsningen står i consolen</div>
-<button ng-click="splitTheBill(event);" ng-disabled="participants.length == 0 || items.length == 0">SPLIT IT!</button>
+<div class="grid-cell g--fit">
+    <div>OBS! Løsningen står i consolen</div>
+    <button ng-click="splitTheBill(event);" ng-disabled="participants.length == 0 || items.length == 0">SPLIT IT!</button>
+</div>
