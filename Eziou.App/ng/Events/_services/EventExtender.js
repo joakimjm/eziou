@@ -14,6 +14,7 @@
             event.calcUsage = calc.usage;
             event.calcShare = calc.share;
             event.calcBalance = calc.balance;
+            event.calcCost = calc.cost;
             event.splitTheBill = calc.splitTheBill;
             event.getItems = function () {
                 return getItems(event);

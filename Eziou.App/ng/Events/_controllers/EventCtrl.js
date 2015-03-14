@@ -18,6 +18,7 @@
                 $scope.calcUsage = event.calcUsage;
                 $scope.calcShare = event.calcShare;
                 $scope.calcBalance = event.calcBalance;
+                $scope.calcCost = event.calcCost;
 
                 $scope.splitTheBill = event.splitTheBill;
 

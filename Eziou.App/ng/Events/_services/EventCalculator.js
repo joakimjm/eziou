@@ -19,6 +19,7 @@
         service.usage = calcUsage;
         service.share = calcShare;
         service.balance = calcBalance;
+        service.cost = calcCost;
         service.splitTheBill = splitTheBill;
         return service;
 
@@ -59,15 +60,14 @@
         }
 
         function calcBalance(participant) {
-            var sum = 0.0,
+            var balance = 0.0,
+                cost = 0.0,
                 price = 0,
                 item;
 
-            for (var i = 0; i < participant.items.length; i++) {
-                sum += calcShare(participant.items[i], event.participants);
-            }
-
-            //console.log(participant.name + " with Id: " + participant.id, sum);
+            cost = calcCost(participant);
+            balance = cost;
+            
             /*
              * 1. Look through the items purchased by the participant.
              * 2. Check if anyone uses it.
@@ -80,13 +80,23 @@
                      */
                     //console.log(participant.name + " bought item: ", item.name);
                     price = parseFloat(item.price) || 0;
-                    sum -= price;
+                    balance -= price;
                 }
             }
 
             //console.log(participant.name, sum);
-            return sum;
+            return balance;
         }
+
+        function calcCost(participant) {
+            var cost = 0.0;
+            
+            for (var i = 0; i < participant.items.length; i++) {
+                cost += calcShare(participant.items[i], event.participants);
+            }
+            return cost;
+        }
+
 
         function splitTheBill(event) {
 
@@ -154,7 +164,8 @@
                     return;
                 }
                 if (i == this.list.length - 1) {
-                    this.list.push(obj);                    
+                    this.list.push(obj);
+                    return;
                 }
             }
         }
